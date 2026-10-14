@@ -1,0 +1,21 @@
+name = "stjerneradar-api"
+main = "index.js"
+compatibility_date = "2026-10-14"
+
+[vars]
+# Change this to the EXACT origin of the website, excluding the GitHub Pages repo path.
+FRONTEND_ORIGIN = "https://YOUR-USERNAME.github.io"
+# Full URL including repo directory, e.g. https://YOUR-USERNAME.github.io/stjerneradar/
+FRONTEND_URL = "https://YOUR-USERNAME.github.io/stjerneradar/"
+# Public VAPID key from node ../scripts/generate-vapid.mjs (NOT a secret).
+VAPID_PUBLIC_KEY = "REPLACE_WITH_GENERATED_PUBLIC_KEY"
+VAPID_SUBJECT = "mailto:YOUR-EMAIL@example.com"
+
+[triggers]
+crons = ["*/30 * * * *"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "stjerneradar-db"
+database_id = "REPLACE_WITH_CREATED_D1_DATABASE_ID"
+migrations_dir = "./migrations"

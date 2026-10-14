@@ -1,0 +1,16 @@
+{
+  "name": "stjerneradar",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Privat dansk PWA for stjerneprognoser og iPhone push",
+  "scripts": {
+    "serve": "python3 -m http.server 5173",
+    "test": "node --test tests/*.test.mjs",
+    "keys": "node scripts/generate-vapid.mjs",
+    "worker:install": "npm --prefix worker install",
+    "worker:dev": "npm --prefix worker run dev",
+    "worker:deploy": "npm --prefix worker run deploy"
+  },
+  "engines": {"node": ">=20"}
+}
