@@ -13,12 +13,13 @@ export const CLASSES = [
 ];
 export const WEATHER_VARIABLES = [
   'cloud_cover','cloud_cover_low','cloud_cover_mid','cloud_cover_high','cloud_cover_2m',
-  'visibility','precipitation','precipitation_probability','temperature_2m',
+  'visibility','precipitation','temperature_2m',
   'relative_humidity_2m','wind_speed_10m'
 ];
 export function weatherUrl(lat,lon,fallback=false){
   const u=new URL(fallback?'https://api.open-meteo.com/v1/forecast':'https://api.open-meteo.com/v1/dmi');
-  const params={latitude:lat,longitude:lon,hourly:WEATHER_VARIABLES.join(','),
+  const vars=fallback?WEATHER_VARIABLES.filter(x=>x!=='cloud_cover_2m'):WEATHER_VARIABLES;
+  const params={latitude:lat,longitude:lon,hourly:vars.join(','),
     forecast_days:8,timezone:'UTC',timeformat:'unixtime'};
   if(!fallback)params.models='dmi_seamless';
   Object.entries(params).forEach(([k,v])=>u.searchParams.set(k,String(v)));

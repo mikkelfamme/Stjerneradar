@@ -1,18 +1,19 @@
 import {MODES,forecastRows,weatherUrl,scoreHour,scoreClass,groupNights,bestWindow,formatClock,formatDate,confidence,clampLocation,localNightKey} from './core.js';
 import {lib,skyAt,planetPositions,skyObjects,nextAstronomyTimes,starsNow,CONSTELLATIONS,phaseName,meteorEvents,eclipseEvents,milkyWayBand,azimuthDirection} from './astro.js';
+import {getLocalIssPasses} from './iss-browser.js';
 
 const STORAGE='stjerneradar.v1';
 const DEFAULT={
   favorites:[{id:'copenhagen',name:'København (eksempel)',lat:55.6761,lon:12.5683,tz:'Europe/Copenhagen',light:'unknown'}],
   selectedId:'copenhagen',primaryId:'copenhagen',mode:'eyes',threshold:80,minHours:1,
-  notify:{early:true,late:true,clearing:true,events:true},apiBase:'',token:'',
+  notify:{early:true,late:true,clearing:true,events:true},
   instanceId:'',activeTab:'today',selectedNight:'',chartTime:0,skyTime:0,skyZoom:1,selectedObject:'',openEvent:'',
   nordlysUrl:'',compareRadius:30
 };
-function getStored(){try{const x=JSON.parse(localStorage.getItem(STORAGE)||'{}');return {...structuredClone(DEFAULT),...x,notify:{...DEFAULT.notify,...x.notify},favorites:Array.isArray(x.favorites)&&x.favorites.length?x.favorites:structuredClone(DEFAULT.favorites)};}catch{return {...DEFAULT};}}
+function getStored(){try{const x=JSON.parse(localStorage.getItem(STORAGE)||'{}');delete x.token;delete x.apiBase;delete x.lastVapidPublicKey;return {...structuredClone(DEFAULT),...x,notify:{...DEFAULT.notify,...x.notify},favorites:Array.isArray(x.favorites)&&x.favorites.length?x.favorites:structuredClone(DEFAULT.favorites)};}catch{return {...structuredClone(DEFAULT)};}}
 let state=getStored();if(!state.instanceId)state.instanceId=crypto.randomUUID?.()||'sr-'+Date.now()+'-'+Math.random().toString(36).slice(2);
 const app=document.getElementById('app');
-let weather=null,loading=false,weatherError='',astronomyAvailable=false,issPasses=[],issError='',comparison={},mapInstance=null,alertStatus=null,searchResults=[];
+let weather=null,loading=false,weatherError='',astronomyAvailable=false,issPasses=[],issError='',comparison={},mapInstance=null,searchResults=[];
 let toastTimer=0,verifiedEvents=[];
 const TABS=[['today','I nat','moon'],['week','7 dage','calendar'],['sky','Stjernekort','stars'],['events','Begivenheder','sparkles'],['places','Steder','pin']];
 const ICONS={
@@ -180,7 +181,7 @@ function renderEvents(){let events=[];
  <div class="panel"><div class="section-head"><h2>Kommende begivenheder</h2><span class="chip muted">${events.length} registreret</span></div><div class="notice">Meteorregn er angivet med omtrentlige årlige peakdatoer – ikke et garanteret antal meteorer. Forholdene afhænger af skyer, måne og observationssted.</div>
  ${events.length?events.map(eventCard).join(''):'<p class="muted tiny">Ingen verificerede begivenheder i den valgte periode.</p>'}</div>
  <div class="panel"><h2 style="font-size:16px">ISS og kometer</h2>
- <p class="tiny muted">${issPasses.length?`${issPasses.length} beregnede, potentielt synlige ISS-passager er vist ovenfor.`:state.apiBase?`Ingen verificerede ISS-passager er tilgængelige. ${esc(issError)}`:'Tilslut Cloudflare-backenden i Indstillinger for aktuelle ISS-passager fra CelesTrak.'}</p>
+ <p class="tiny muted">${issPasses.length?`${issPasses.length} beregnede, potentielt synlige ISS-passager er vist ovenfor.`:issError?`ISS-data er midlertidigt utilgængelige: ${esc(issError)}`:'Ingen beregnede synlige ISS-passager i de næste 48 timer.'}</p>
  <p class="tiny muted">Kometers position og lysstyrke ændrer sig. Appen viser kun verificerede kometposter fra et vedligeholdt kilderegister (${verifiedEvents.length} registreret). Uden verificerede oplysninger vises ingen kometanbefaling.</p></div>
  <div class="notice warn">Ved solformørkelse: Se aldrig direkte på Solen uden et godkendt solfilter. Et almindeligt teleskop eller en kikkert uden egnet solfilter kan give alvorlig øjenskade.</div>`;
 }
@@ -188,7 +189,7 @@ function renderPlaces(){return `${headline('Dine observationssteder','Gem steder
  <div class="panel"><div class="section-head"><h2>Find et sted</h2></div><div class="search-box"><input id="place-search" autocomplete="off" placeholder="Søg by eller område…" aria-label="Søg lokation"><button class="button" data-action="place-search">Søg</button></div><div id="search-results" class="search-results ${searchResults.length?'':'hidden'}">${searchResults.map((p,i)=>`<button data-action="save-search" data-index="${i}">${esc(p.name)}${p.admin1?', '+esc(p.admin1):''}, ${esc(p.country||'')}</button>`).join('')}</div>
  <div class="inline-actions" style="margin-top:12px"><button class="button secondary" data-action="gps">${ic('compass',16)} Brug min GPS</button><button class="button secondary" data-action="compare">${ic('refresh',16)} Sammenlign</button></div></div>
  <div class="section-head"><h2>Gemte steder</h2><span class="chip muted">${state.favorites.length} gemt</span></div>
- ${state.favorites.map(p=>`<div class="place-row"><span class="object-symbol">${ic('pin',20)}</span><span class="row-copy"><b>${esc(p.name)} ${state.primaryId===p.id?'<span class="chip" style="margin-left:3px">Pushsted</span>':''}</b><span>${p.lat.toFixed(3)}, ${p.lon.toFixed(3)} · ${p.light==='urban'?'By':p.light==='suburban'?'Forstad':p.light==='rural'?'Land':'Lysmiljø ikke angivet'} ${comparison[p.id]?.best?'· '+comparison[p.id].best.score+'/100':''}</span></span>
+ ${state.favorites.map(p=>`<div class="place-row"><span class="object-symbol">${ic('pin',20)}</span><span class="row-copy"><b>${esc(p.name)} ${state.primaryId===p.id?'<span class="chip" style="margin-left:3px">Varslingssted</span>':''}</b><span>${p.lat.toFixed(3)}, ${p.lon.toFixed(3)} · ${p.light==='urban'?'By':p.light==='suburban'?'Forstad':p.light==='rural'?'Land':'Lysmiljø ikke angivet'} ${comparison[p.id]?.best?'· '+comparison[p.id].best.score+'/100':''}</span></span>
  <button class="icon-button" aria-label="Vælg ${esc(p.name)}" title="Vælg sted" data-action="select-place" data-id="${esc(p.id)}">${state.selectedId===p.id?ic('check',16):ic('chevron',17)}</button>
  ${state.primaryId!==p.id?`<button class="icon-button" aria-label="Vælg som pushsted" title="Vælg som pushsted" data-action="primary-place" data-id="${esc(p.id)}">${ic('bell',16)}</button>`:''}
  ${state.favorites.length>1?`<button class="icon-button" aria-label="Fjern sted" title="Slet sted" data-action="delete-place" data-id="${esc(p.id)}">${ic('trash',16)}</button>`:''}</div>`).join('')}
@@ -196,34 +197,32 @@ function renderPlaces(){return `${headline('Dine observationssteder','Gem steder
  <div class="notice">Et sted med samme skyprognose kan have vidt forskellig himmelkvalitet på grund af lysforurening. Vælg dit vurderede lysmiljø under Indstillinger, når stedet er aktivt.</div>`;
 }
 function toggleRow(key,name,description){return `<div class="toggle-row"><div><strong>${esc(name)}</strong><span>${esc(description)}</span></div><button class="switch ${state.notify[key]?'on':''}" aria-label="${esc(name)}" aria-pressed="${state.notify[key]}" data-action="toggle" data-key="${key}"></button></div>`;}
-function renderSettings(){const installed=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone;
- const supported='serviceWorker' in navigator&&'PushManager' in window&&'Notification' in window;
- const permission=typeof Notification!=='undefined'?Notification.permission:'ikke understøttet';
- return `${headline('Indstillinger','Tilpas observationsform, lokation og dine varsler')}
+function renderSettings(){
+ return `${headline('Indstillinger','Tilpas observationer og dine GitHub/ntfy-varsler')}
  <div class="panel"><div class="section-head"><h2>Observation</h2></div><div class="field"><label for="observe-mode">Sådan vil jeg observere</label><select id="observe-mode" data-field="mode">${Object.entries(MODES).map(([k,v])=>`<option value="${k}" ${state.mode===k?'selected':''}>${v}</option>`).join('')}</select></div>
- <div class="field"><label for="light-field">Lysmiljø i ${esc(place().name)} (din egen vurdering)</label><select id="light-field" data-field="light"><option value="unknown" ${place().light==='unknown'?'selected':''}>Ukendt / ikke målt</option><option value="urban" ${place().light==='urban'?'selected':''}>By med meget lys</option><option value="suburban" ${place().light==='suburban'?'selected':''}>Forstad / mellem</option><option value="rural" ${place().light==='rural'?'selected':''}>Mørkt område på landet</option></select><small>Dette er din vurdering, ikke et automatisk Bortle-estimat. Ukendt mørke begrænser anbefaling af deep-sky.</small></div></div>
- <div class="panel"><div class="section-head"><h2>${ic('bell',19)} Pushnotifikationer</h2></div>
- <div class="notice ${!supported?'warn':''}">${supported?`Systemtilladelse: ${esc(permission)}. ${installed?'Åbnet som installeret app.':'På iPhone skal appen føjes til hjemmeskærmen, før push kan aktiveres.'}`:'Denne browser understøtter ikke Web Push. Brug iPhone med iOS 16.4+ og en hjemmeskærmsinstalleret app.'}</div>
- <div class="field"><label for="backend-url">Cloudflare Worker-adresse</label><input id="backend-url" data-field="apiBase" type="url" autocomplete="url" placeholder="https://stjerneradar-api.…workers.dev" value="${esc(state.apiBase)}"><small>Kræves for baggrundsvarsler og ISS. Indtast din worker-URL, når backenden er deployet.</small></div>
- <div class="field"><label for="pair-key">Privat parringsnøgle</label><input id="pair-key" data-field="token" type="password" autocomplete="off" placeholder="APP_ADMIN_TOKEN" value="${esc(state.token)}"><small>Den nøgle du selv opretter i Cloudflare. Gemmes lokalt på denne enhed; aldrig i GitHub-koden.</small></div>
- <div class="inline-actions"><button class="button" data-action="enable-push" ${!supported?'disabled':''}>${ic('bell',16)} Aktivér push</button><button class="button secondary" data-action="test-push">Send test</button><button class="button secondary" data-action="check-status">Status</button></div>
- <div class="inline-actions" style="margin-top:9px"><button class="button secondary" data-action="sync-push">Gem varsler</button><button class="button danger" data-action="disable-push">Afmeld push</button></div>
- <p class="tiny muted">Primært varslingssted: <b>${esc(primary().name)}</b>. GPS opdateres ikke i baggrunden.</p>
- <div class="toggle-row"><div><strong>Stilleperiode: kl. 23–07</strong><span>Ingen afsendte pushbeskeder – heller ikke test eller særlige begivenheder. Fast valgt regel for V1.</span></div><span class="chip">Altid aktiv</span></div>
+ <div class="field"><label for="light-field">Lysmiljø i ${esc(place().name)} (din egen vurdering)</label><select id="light-field" data-field="light"><option value="unknown" ${place().light==='unknown'?'selected':''}>Ukendt / ikke målt</option><option value="urban" ${place().light==='urban'?'selected':''}>By med meget lys</option><option value="suburban" ${place().light==='suburban'?'selected':''}>Forstad / mellem</option><option value="rural" ${place().light==='rural'?'selected':''}>Mørkt område på landet</option></select><small>Dette er din vurdering, ikke en automatisk lysmåling.</small></div></div>
+ <div class="panel"><div class="section-head"><h2>${ic('bell',19)} Natlige varsler via ntfy</h2></div>
+ <div class="notice">Stjerneradar sender beskeder gennem <b>ntfy</b> på din iPhone. <b>GitHub Actions</b> kontrollerer vejret ca. hver halve time, også når appen er lukket. Notifikationer sendes ikke direkte fra hjemmeskærmsappen.</div>
+ <div class="inline-actions"><a class="button secondary" href="https://ntfy.sh/" target="_blank" rel="noopener noreferrer">Om ntfy ↗</a><button class="button" data-action="copy-alert-config">${ic('check',16)} Kopiér GitHub-opsætning</button></div>
+ <p class="tiny muted">Primært varslingssted: <b>${esc(primary().name)}</b>. Vælg et andet sted under Steder, hvis det ikke er korrekt.</p>
+ <div class="toggle-row"><div><strong>Stilleperiode: kl. 23–07</strong><span>Fast regel for GitHub Actions, også ved manuel test. På iPhone bør du også aktivere Fokus/Nattesøvn 23–07 for at sikre, at en forsinket ntfy-levering er lydløs.</span></div><span class="chip">Fast</span></div>
  ${toggleRow('early','Tidligt varsel','12–36 timer før en lovende nat.')}
- ${toggleRow('late','Sidste varsel','30–90 minutter før mulighedens start.')}
- ${toggleRow('clearing','Uventet opklaring','Når prognosen forbedres markant.')}
- ${toggleRow('events','Særlige begivenheder','Meteorregn og relevante verificerede observationer.')}
- <div class="field"><label for="alert-threshold">Minimum Stjerneindeks for almindeligt varsel</label><div class="range-row"><input id="alert-threshold" type="range" min="60" max="95" step="5" value="${state.threshold}" data-field="threshold"><span id="threshold-value">${state.threshold}/100</span></div></div>
- <div class="field"><label for="minimum-hours">Mindste sammenhængende tidsvindue</label><select id="minimum-hours" data-field="minHours">${[1,2,3].map(i=>`<option value="${i}" ${state.minHours===i?'selected':''}>${i} ${i===1?'time':'timer'}</option>`).join('')}</select></div>
- ${alertStatus?`<div class="notice">Pushstatus: ${esc(alertStatus.message||alertStatus.error||JSON.stringify(alertStatus))}${alertStatus.lastSentAt?' · Sidste afsendelse: '+fmt(alertStatus.lastSentAt)+' '+timeFormat(alertStatus.lastSentAt):''}</div>`:''}
- </div>
+ ${toggleRow('late','Sidste varsel','30–90 minutter før observation.')}
+ ${toggleRow('clearing','Uventet opklaring','Når forholdene forbedres tydeligt i forhold til tidligere prognose.')}
+ ${toggleRow('events','Særlige begivenheder','Meteorregn, ISS og verificerede himmelbegivenheder.')}
+ <div class="field"><label for="alert-threshold">Minimum Stjerneindeks for normalt varsel</label><div class="range-row"><input id="alert-threshold" type="range" min="60" max="95" step="5" value="${state.threshold}" data-field="threshold"><span id="threshold-value">${state.threshold}/100</span></div></div>
+ <div class="field"><label for="minimum-hours">Mindste sammenhængende observationsvindue</label><select id="minimum-hours" data-field="minHours">${[1,2,3].map(i=>`<option value="${i}" ${state.minHours===i?'selected':''}>${i} ${i===1?'time':'timer'}</option>`).join('')}</select></div>
+ <div class="notice warn"><b>Vigtigt:</b> Indstillinger på telefonen synkroniseres <b>ikke automatisk</b> til GitHub. Efter ændringer skal du trykke "Kopiér GitHub-opsætning" og indsætte teksten i GitHub Secret <b>STJERNERADAR_CONFIG</b>. Der er ingen Cloudflare-opsætning.</div></div>
+ <div class="panel"><div class="section-head"><h2>Sådan aktiverer du ntfy</h2></div>
+ <p class="tiny muted">1. Installér ntfy på din iPhone. 2. Opret et svært gætteligt topic (20–64 tegn) og abonnér på det i ntfy. 3. Opret hemmeligheden <b>NTFY_TOPIC</b> i GitHub. 4. Opret <b>STJERNERADAR_CONFIG</b> med konfigurationen fra knappen herover. 5. Kør workflowet <b>Stjerneradar · Varsler</b> manuelt med "test_message" for at teste.</p>
+ <p class="tiny muted">Se README.md i projektet for en dansk trin-for-trin-vejledning uden Python, Cloudflare eller terminal.</p></div>
  <div class="panel"><div class="section-head"><h2>Nordlysradar</h2></div><div class="field"><label for="nordlys-url">Link til din Nordlysradar-app (valgfrit)</label><input id="nordlys-url" data-field="nordlysUrl" type="url" placeholder="https://…" value="${esc(state.nordlysUrl||'')}"></div>${/^https:\/\//.test(state.nordlysUrl||'')?`<a class="button secondary" href="${esc(state.nordlysUrl)}" target="_blank" rel="noopener noreferrer">Åbn Nordlysradar ↗</a>`:''}</div>
- <div class="panel"><div class="section-head"><h2>Installér på iPhone</h2></div><p class="tiny muted">Åbn Stjerneradar i Safari via HTTPS, vælg Del → Føj til hjemmeskærm, og åbn ikonet. Gå dernæst til Indstillinger → Aktivér push og tillad beskeder.</p><p class="tiny muted">Hvis iOS Fokus er aktivt, kan visning eller leveringstid ændres. Tjenesten bekræfter kun, at pushudbyderen har accepteret afsendelsen.</p></div>
- <div class="panel"><div class="section-head"><h2>Privatliv og data</h2></div><p class="tiny muted">GPS kræver tilladelse. Kun det valgte varslingssted og dit pushabonnement sendes til din private Worker. Favoritter lagres på din telefon. Ingen positionshistorik.</p>
- <button class="button danger" data-action="wipe">${ic('trash',15)} Slet lokale indstillinger og abonnement</button></div>
- <div class="footnote">Data: <a target="_blank" rel="noopener" href="https://open-meteo.com/en/docs/dmi-api">Open-Meteo / DMI</a>, <a target="_blank" rel="noopener" href="https://github.com/cosinekitty/astronomy">Astronomy Engine</a>, <a target="_blank" rel="noopener" href="https://www.imo.net/">IMO</a>, <a target="_blank" rel="noopener" href="https://celestrak.org/">CelesTrak</a> og OpenStreetMap. Brugsrettighederne gælder kun privat ikke-kommerciel brug.</div>`;
+ <div class="panel"><div class="section-head"><h2>Installér Stjerneradar på iPhone</h2></div><p class="tiny muted">Åbn din GitHub Pages-adresse i Safari via HTTPS, vælg Del → Føj til hjemmeskærm. Installer ntfy separat for at modtage beskeder.</p></div>
+ <div class="panel"><div class="section-head"><h2>Privatliv og data</h2></div><p class="tiny muted">GPS kræver tilladelse. Favoritsteder gemmes på telefonen. Kun når du selv kopierer GitHub-konfigurationen, kan den valgte primære lokation bruges af GitHub Actions. GitHub Secrets opbevarer koordinater og dit private ntfy-topic. Lokal sletning ændrer <b>ikke</b> GitHub Secrets eller ntfy-abonnement.</p>
+ <button class="button danger" data-action="wipe">${ic('trash',15)} Slet lokale indstillinger</button></div>
+ <div class="footnote">Data: <a target="_blank" rel="noopener" href="https://open-meteo.com/en/docs/dmi-api">Open-Meteo / DMI</a>, <a target="_blank" rel="noopener" href="https://github.com/cosinekitty/astronomy">Astronomy Engine</a>, <a target="_blank" rel="noopener" href="https://www.imo.net/">IMO</a>, <a target="_blank" rel="noopener" href="https://celestrak.org/">CelesTrak</a> og OpenStreetMap. Privat ikke-kommerciel brug.</div>`;
 }
+
 function render(){astronomyAvailable=!!lib();let body;
  if(state.activeTab==='today')body=renderToday();
  else if(state.activeTab==='week')body=renderWeek();
@@ -243,12 +242,11 @@ async function loadForecast(force=false){const target=place();const id=target.id
  if(!force&&cached?.fetchedAt&&Date.now()-cached.fetchedAt<20*60000)return;
  loading=true;weatherError='';render();
  try{
-  const preferred=state.apiBase&&state.token?`${state.apiBase.replace(/\/$/,'')}/api/forecast?lat=${target.lat}&lon=${target.lon}`:weatherUrl(target.lat,target.lon);
-  const candidates=[preferred,weatherUrl(target.lat,target.lon),weatherUrl(target.lat,target.lon,true)];
+  const candidates=[weatherUrl(target.lat,target.lon),weatherUrl(target.lat,target.lon,true)];
   let parsed,failed='';
   for(const url of [...new Set(candidates)]){
    try{
-    const res=await fetch(url,{signal:AbortSignal.timeout(14000),headers:url.includes('/api/forecast')?{Authorization:`Bearer ${state.token}`}:{}});
+    const res=await fetch(url,{signal:AbortSignal.timeout(14000)});
     if(!res.ok)throw Error('HTTP '+res.status);
     const json=await res.json();
     if(url.includes('/v1/forecast'))json.stjerneradar_source='Open-Meteo · generel prognose (fallback)';
@@ -285,12 +283,12 @@ async function addSearchPlace(i){const o=searchResults[i];if(!o)return;
  const p=existing||{id:crypto.randomUUID?.()||Date.now()+'',name:[o.name,o.admin1].filter(Boolean).join(', '),lat,lon,tz:o.timezone||'Europe/Copenhagen',light:'unknown'};
  if(!existing)state.favorites.push(p);searchResults=[];await selectPlace(p);}
 async function changePrimary(id){const p=state.favorites.find(x=>x.id===id);if(!p)return;
- state.primaryId=id;save();render();if(state.apiBase&&state.token)try{await syncSettings();toast('Varslingssted opdateret på serveren.');}catch(e){toast('Kun gemt lokalt. Varslingssted på serveren er ikke opdateret: '+e.message);}else toast('Primært sted valgt. Tilslut Worker for baggrundsvarsler.');}
+ state.primaryId=id;save();render();toast('Varslingssted valgt. Kopiér den nye opsætning under Indstillinger til GitHub Secret.');}
 function deletePlace(id){if(state.favorites.length<2)return;
  const p=state.favorites.find(x=>x.id===id);if(!confirm(`Fjern ${p?.name||'stedet'}?`))return;
  const wasPrimary=state.primaryId===id;state.favorites=state.favorites.filter(x=>x.id!==id);
  if(state.selectedId===id){state.selectedId=state.favorites[0].id;weather=null;rated=[];}
- if(wasPrimary)state.primaryId=state.favorites[0].id;save();render();loadForecast();if(wasPrimary)syncSettings().catch(()=>toast('Pushsted skal synkroniseres fra Indstillinger.'));
+ if(wasPrimary)state.primaryId=state.favorites[0].id;save();render();loadForecast();if(wasPrimary)toast('Varslingssted ændret. Opdatér GitHub Secret med ny opsætning.');
 }
 async function comparePlaces(){toast('Henter sammenlignelige prognoser…');let result={};
  for(const p of state.favorites.slice(0,10)){
@@ -313,56 +311,31 @@ function drawMap(){const target=document.getElementById('location-map');if(!targ
  if(ps.length>1){const bounds=L.latLngBounds(ps.map(p=>[p.lat,p.lon]));mapInstance.fitBounds(bounds.pad(.28),{maxZoom:11});}
  setTimeout(()=>mapInstance?.invalidateSize(),150);
 }
-async function apiCall(path,options={}){const base=state.apiBase?.trim().replace(/\/$/,'');if(!base||!/^https:\/\//.test(base)&&!/^http:\/\/localhost/.test(base))throw new Error('Angiv en gyldig HTTPS-adresse til Cloudflare Worker.');
- const headers={Accept:'application/json',...options.headers};if(state.token)headers.Authorization=`Bearer ${state.token}`;
- if(options.body)headers['Content-Type']='application/json';
- const res=await fetch(base+path,{...options,headers,signal:AbortSignal.timeout(15000)});
- let response;try{response=await res.json();}catch{response={};}
- if(!res.ok)throw Error(response.error||response.message||`Serveren svarede ${res.status}.`);
- return response;
+function githubAlertConfig(){const p=primary();return JSON.stringify({
+  alertId:state.instanceId,
+  location:{name:p.name,lat:p.lat,lon:p.lon,tz:p.tz||'Europe/Copenhagen',light:p.light||'unknown'},
+  mode:state.mode,threshold:state.threshold,minHours:state.minHours,notify:state.notify
+},null,2);}
+async function copyAlertConfig(){
+ const text=githubAlertConfig();
+ try{await navigator.clipboard.writeText(text);toast('GitHub-konfiguration kopieret. Indsæt den i Secret STJERNERADAR_CONFIG.');}
+ catch(e){
+  const textarea=document.createElement('textarea');textarea.value=text;textarea.style.cssText='position:fixed;top:2rem;left:2rem;width:90vw;height:55vh;z-index:1000';
+  document.body.appendChild(textarea);textarea.focus();textarea.select();toast('Markér og kopiér JSON-teksten. Luk tekstfeltet bagefter.');
+  textarea.addEventListener('blur',()=>textarea.remove(),{once:true});
+ }
 }
-async function syncSettings(){const p=primary();if(!state.token)throw Error('Indtast din private parringsnøgle.');
- const result=await apiCall('/api/settings',{method:'POST',body:JSON.stringify({installationId:state.instanceId,
-  location:{name:p.name,lat:p.lat,lon:p.lon,tz:p.tz,light:p.light},
-  mode:state.mode,threshold:state.threshold,minHours:state.minHours,notify:state.notify})});
- alertStatus={message:'Indstillinger gemt hos Cloudflare',...result};return result;
-}
-function decodeKey(base64){const padding='='.repeat((4-base64.length%4)%4),raw=atob((base64+padding).replace(/-/g,'+').replace(/_/g,'/'));
- return Uint8Array.from(raw,c=>c.charCodeAt(0));}
-async function enablePush(){// Called as the first async operation from a user gesture.
- if(!('Notification' in globalThis&&'serviceWorker' in navigator&&'PushManager' in globalThis))return toast('Push understøttes ikke her.');
- if(!state.apiBase||!state.token)return toast('Udfyld Worker-URL og parringsnøgle, og gem dem.');
- try{
-  const permission=await Notification.requestPermission();
-  if(permission!=='granted')throw Error('Notifikationstilladelse blev ikke givet i iOS.');
-  const reg=await navigator.serviceWorker.ready;
-  const config=await apiCall('/api/config');if(!config.vapidPublicKey)throw Error('Worker mangler VAPID_PUBLIC_KEY.');
-  let subscription=await reg.pushManager.getSubscription();
-  if(subscription&&config.vapidPublicKey!==state.lastVapidPublicKey){await subscription.unsubscribe();subscription=null;}
-  if(!subscription)subscription=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:decodeKey(config.vapidPublicKey)});
-  await syncSettings();await apiCall('/api/push/subscribe',{method:'POST',body:JSON.stringify({installationId:state.instanceId,subscription:subscription.toJSON()})});
-  state.lastVapidPublicKey=config.vapidPublicKey;save();alertStatus={message:'Pushabonnement er registreret. Test det i appen, når klokken er 07–23.'};render();toast('Push er aktiveret. Tryk Send test for at afprøve det.');
- }catch(e){alertStatus={error:e.message};render();toast('Push kunne ikke aktiveres: '+e.message);}
-}
-async function testPush(){try{const x=await apiCall('/api/push/test',{method:'POST',body:JSON.stringify({installationId:state.instanceId})});
- alertStatus={message:x.message||'Push er accepteret af pushudbyderen. Den faktiske visning afhænger af iOS.'};render();toast(alertStatus.message);
- }catch(e){alertStatus={error:e.message};render();toast('Test mislykkedes: '+e.message);}}
-async function checkStatus(){try{const x=await apiCall(`/api/status?installationId=${encodeURIComponent(state.instanceId)}`);
- alertStatus={message:`${x.subscriptionCount||0} abonnementsenhed(er). ${x.lastCheckAt?'Sidste kontrol: '+new Date(x.lastCheckAt).toLocaleString('da-DK'): 'Ingen planlagt kontrol registreret.'}${x.lastReason?' · '+x.lastReason:''}`,lastSentAt:x.lastSentAt};render();toast('Status hentet.');
- }catch(e){toast('Status kunne ikke hentes: '+e.message);}}
-async function disablePush(){try{const reg=await navigator.serviceWorker.ready;const sub=await reg.pushManager.getSubscription();
- if(sub){if(state.apiBase&&state.token)await apiCall('/api/push/unsubscribe',{method:'POST',body:JSON.stringify({installationId:state.instanceId,endpoint:sub.endpoint})});await sub.unsubscribe();}
- alertStatus={message:'Pushabonnement fjernet på denne enhed.'};render();toast('Push er afmeldt.');
- }catch(e){toast('Kunne ikke afmelde: '+e.message);}}
-async function wipe(){if(!confirm('Vil du slette dine lokale steder og indstillinger samt afmelde push?'))return;
- try{await disablePush();if(state.apiBase&&state.token)await apiCall('/api/delete',{method:'POST',body:JSON.stringify({installationId:state.instanceId})});}catch{}
+async function wipe(){
+ if(!confirm('Slet lokale steder og indstillinger? Dette afmelder IKKE dit ntfy-topic og fjerner IKKE GitHub Secrets.'))return;
  for(const key of Object.keys(localStorage))if(key.startsWith('srforecast:')||key===STORAGE)localStorage.removeItem(key);
- state={...DEFAULT,notify:{...DEFAULT.notify},favorites:structuredClone(DEFAULT.favorites),instanceId:crypto.randomUUID?.()||'sr-'+Date.now()};save();weather=null;rated=[];alertStatus=null;render();loadForecast();}
-async function loadISS(){issPasses=[];issError='';if(!state.apiBase)return;
- try{const p=place();const r=await apiCall(`/api/iss?lat=${p.lat}&lon=${p.lon}`);
- issPasses=(r.passes||[]).map(x=>({...x,time:x.peak??x.start}));
- }catch(e){issError=e.message;}
- if(state.activeTab==='events')render();}
+ state={...structuredClone(DEFAULT),instanceId:crypto.randomUUID?.()||'sr-'+Date.now()};save();weather=null;rated=[];render();loadForecast();
+ toast('Lokale data er slettet. Fjern GitHub Secrets og ntfy-abonnement separat, hvis varsler skal stoppe.');
+}
+async function loadISS(){issPasses=[];issError='';
+ try{const p=place();issPasses=(await getLocalIssPasses(p)).map(x=>({...x,time:x.peak??x.start}));}
+ catch(e){issError=e.message;}
+ if(state.activeTab==='events')render();
+}
 async function installServiceWorker(){if(!('serviceWorker' in navigator))return;
  try{await navigator.serviceWorker.register('./sw.js',{scope:'./'});}catch(e){console.warn('Service worker:',e);}}
 function navigate(tab){state.activeTab=tab;history.replaceState(null,'',tab==='today'?'./':'?tab='+tab);save();window.scrollTo({top:0,behavior:'instant'});
@@ -395,10 +368,8 @@ document.addEventListener('click',async e=>{
   if(action==='primary-place')await changePrimary(b.dataset.id);
   if(action==='delete-place')deletePlace(b.dataset.id);
   if(action==='gps')await getGPS();if(action==='compare')await comparePlaces();
-  if(action==='toggle'){state.notify[b.dataset.key]=!state.notify[b.dataset.key];save();render();toast('Indstillingen er gemt lokalt. Tryk "Gem varsler" for at opdatere serveren.');}
-  if(action==='enable-push')await enablePush();if(action==='test-push')await testPush();
-  if(action==='check-status')await checkStatus();if(action==='sync-push'){await syncSettings();render();toast('Varsler gemt på serveren.');}
-  if(action==='disable-push')await disablePush();if(action==='wipe')await wipe();
+  if(action==='toggle'){state.notify[b.dataset.key]=!state.notify[b.dataset.key];save();render();toast('Gemt lokalt. Kopiér opsætningen til GitHub for at ændre pushvarsler.');}
+  if(action==='copy-alert-config')await copyAlertConfig();if(action==='wipe')await wipe();
  }catch(error){toast('Der opstod en fejl: '+error.message);}
 });
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target?.id==='place-search'){e.preventDefault();searchPlace();}});
