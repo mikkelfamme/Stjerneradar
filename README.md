@@ -1,72 +1,42 @@
-# Stjerneradar V1.1
+# Stjerneradar V1.2
 
-**Mobil PWA til nattehimlens synlighed – nu uden Cloudflare, Python eller lokal installation.**
+Stjerneradar: mobilvenlig Progressive Web App til nattehimlens synlighed, stjernekort, astronomiske begivenheder og tidlige/sene ntfy-varsler.
 
-**Læs først [OPSAETNING.md](OPSAETNING.md)** – dansk trin-for-trin-guide til GitHub Pages og iPhone-notifikationer med ntfy.
+**NYT I V1.2:** Samme simple ntfy-opsætning som Nordlysradar: **Opret alarmkanal → Kopiér kanal → Kopiér GitHub-hemmelighed**. Der kræves kun **én** GitHub Secret, `STJERNERADAR_ALERT_CONFIG`. En manuel test-push kræver ikke GitHub API-skriverettigheder eller state-branch. Fejl i en manglende Secret forklares i GitHub Actions-jobbet.
 
-## Hvad kan appen?
+**Start her:** Læs [OPSAETNING.md](OPSAETNING.md). Her står, hvordan du opdaterer det eksisterende repo `mikkelfamme/Stjerneradar` direkte på GitHubs hjemmeside – uden Python, Cloudflare eller lokale udviklingsværktøjer.
 
-- **I nat:** Stjerneindeks 0–100, skydække i forskellige lag, Måne, mørke og bedste timevindue.
-- **7 dage:** timeopdelt forventet nattehimmel; advarsel om usikre prognoser.
-- **Stjernekort:** stjerner, planeter, Månen, udvalgte stjernebilleder og vejledende Mælkevejsbånd, tidsvalg og zoom.
-- **Begivenheder:** forventede meteorregn, beregnede formørkelser, mulige ISS-passager fra CelesTrak og kildeverificerede kometer (tomt register ved start).
-- **Steder:** GPS, stedsøgning, favoritter, sammenligning og kort over egne observationssteder.
-- **Varsler:** tidlig/sen, uventet opklaring og særlige begivenheder; **aldrig afsendelse 23–07**, deduplikation og dagsgrænser.
+## Appens funktioner
 
-## Arkitektur
+- **I nat:** Stjerneindeks 0–100, skyer, Måne, astronomisk mørke og bedste tidsvindue.
+- **7 dage:** Lokal timeprognose for syv nætter, med tydelig usikkerhed for længere horisonter.
+- **Stjernekort:** Interaktivt kort med stjerner, planeter, Måne, Mælkevejens retning og udvalgte stjernebilleder.
+- **Begivenheder:** Meteorregn, formørkelser, beregnede ISS-passager og et kildestyret (i starten tomt) kometregister.
+- **Steder:** GPS og favoritsteder samt valg af primært varslingssted.
+- **Varsler:** Tidligt/sent, uventet opklaring og særlige begivenheder. GitHub Actions beregner automatisk, ntfy sender besked på iPhone.
 
-| Del | Funktion | Kræver lokal installation? |
-|---|---|---|
-| GitHub Pages | HTTPS PWA, de fem skærme, sol/måne, stjernekort, vejr | Nej |
-| GitHub Actions `pages.yml` | Udgiv app og opdatér frisk ISS-TLE ca. hver 8. time | Nej |
-| GitHub Actions `alerts.yml` | Kontrollér prognoser ca. hver halve time | Nej |
-| npm på **GitHubs server** | Installerer Astronomy Engine og satellite.js ved jobs | Nej |
-| ntfy iPhone-app | Leverer notifikationer uafhængigt af om PWA er åben | Kun ntfy på telefonen |
-| GitHub Secrets | Privat topic og varslingssted | Konfigureres på GitHubs hjemmeside |
-| Branch `stjerneradar-alert-state` | Deduplikation og tidligere prognose til opklaring | Oprettes automatisk |
+## Teknisk
 
-**Vigtig forskel fra V1.0:** Dette er **ntfy-push**, ikke iOS Web Push fra Stjerneradar-ikonet. Brugerindstillinger i PWA er lokale; de kopieres til GitHub Secret `STJERNERADAR_CONFIG` fra appens Indstillinger. Følger du kun opsætning af Pages og springer Secrets over, virker appen, men **ingen automatiske notifikationer** bliver sendt.
+| Komponent | Funktion |
+|---|---|
+| GitHub Pages | Udgiver PWA med HTTPS |
+| GitHub Actions `pages.yml` | Udgiver siden og opdaterer ISS-banedata |
+| GitHub Actions `alerts.yml` | Prognosekontrol ca. hver 30. minut og manuel test |
+| ntfy | Notifikationer i separat iPhone-app |
+| Én GitHub Secret | `STJERNERADAR_ALERT_CONFIG` rummer ntfy-kanal og primært varslingssted |
+| State-branch `stjerneradar-alert-state` | Husker afsendte varsler uden at gemme koordinater eller topic |
+| Open-Meteo/DMI, Astronomy Engine, CelesTrak | Vejr- og astronomidata |
 
-## Filer
+De gamle V1.1-secrets (`STJERNERADAR_CONFIG` og `NTFY_TOPIC`) ignoreres bevidst i V1.2, så en forkert gammel kanal ikke kan få en testbesked. Brug udelukkende den ene nye samlede Secret.
 
-```text
-index.html                 startside
-app.js                     skærme, GPS, indstillinger, kopiering af varslingsopsætning
-core.js                    scoring og tidszone-/stilleperioderegler
-astro.js                   himmelkoordinater, planeter og begivenhedskalender
-iss-core.js                TLE og beregnede ISS-passager
-iss-browser.js             browserens lokale ISS-beregning fra GitHub-opdateret TLE
-style.css                  mobilvenligt design
-sw.js                      offline skal; ingen Web Push (ntfy håndterer varsler)
-manifest.webmanifest       installation på hjemmeskærmen
-verified-events.json      verificerede kometer (starter som [])
-icons/                     appikoner
-scripts/check-alerts.mjs   GitHub Actions-varslingsmotor
-scripts/alert-logic.mjs    fælles regler for varselsbeslutninger
-scripts/notify-ntfy.mjs    afsendelse til ntfy og stilleperiodecheck
-scripts/github-state.mjs   læs/skriv særskilt varslingsbranch
-scripts/events-node.mjs   astronomiske særlige begivenheder og TLE
-scripts/build-iss-feed.mjs TLE-opdatering til GitHub Pages
-.github/workflows/pages.yml  udgivelse + ISS
-.github/workflows/alerts.yml automatiske varsler og manuel test
-tests/                    30 automatiske tests
-OPSAETNING.md              dansk opsætningsvejledning
-```
+Stilleperioden er låst til **kl. 23–07** i det valgte varslingssteds tidszone. GitHub Actions er ikke en garanteret præcis timer; den kan køre forsinket. ntfy-kvitteringen bekræfter HTTP-accept, ikke at iPhone rent faktisk viste beskeden.
 
-## Kvalitetsgrænser
+## Tests
 
-Stjerneindekset er en transparent heuristik, ikke en målestation. Moonlight justeres for månehøjde; fuldmåne under horisonten tæller ikke negativt. Deep-sky begrænses ved ukendt lysforurening. Hvis prognoser ikke findes, varsles der ikke. En sensor kan ikke forventes at opdatere GPS i baggrunden på iPhone.
-
-GitHub Actions *forsøger* en kørsel efter cron; job kan blive forsinket eller springes over. ntfy returnerer HTTP-accept, som ikke beviser levering på telefonen. Koden forhindrer afsendelse kl. 23–07 i varslingsstedets tidszone, men iOS kan vise allerede afsendte beskeder senere. Brug også Fokus 23–07 for garanteret lydløshed fra telefonens side.
-
-Koden er lavet til **privat, ikke-kommerciel** brug, især på grund af eksterne datakilders vilkår. Den er ikke til kommerciel trafik uden kontrol af kvoter og licenser.
-
-## Test for udviklere (valgfrit)
-
-GitHub Actions kører tests automatisk. Hvis du selv har Node 20+:
+GitHub udfører projektets tests ved workflow-kørsel. Lokal Node.js er valgfri:
 
 ```bash
 npm test
 ```
 
-Tests dækker score, månefaser, skyer, nattevinduer, sommer-/vintertid, stilleperioder, ntfy-HTTP, deduplikation og GitHub-varselstider. **Det er ikke nødvendigt at køre dette på Windows.**
+37 tests dækker beregninger, stilleperioder, deduplikation, GitHub-state, ntfy-konfiguration, kompatibilitet med V1.1 og UI-kanaloprettelse. Ingen live-ntfy-test er inkluderet i den automatiske testpakke.

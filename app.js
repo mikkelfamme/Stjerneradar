@@ -7,7 +7,7 @@ const DEFAULT={
   favorites:[{id:'copenhagen',name:'København (eksempel)',lat:55.6761,lon:12.5683,tz:'Europe/Copenhagen',light:'unknown'}],
   selectedId:'copenhagen',primaryId:'copenhagen',mode:'eyes',threshold:80,minHours:1,
   notify:{early:true,late:true,clearing:true,events:true},
-  instanceId:'',activeTab:'today',selectedNight:'',chartTime:0,skyTime:0,skyZoom:1,selectedObject:'',openEvent:'',
+  instanceId:'',pushTopic:'',activeTab:'today',selectedNight:'',chartTime:0,skyTime:0,skyZoom:1,selectedObject:'',openEvent:'',
   nordlysUrl:'',compareRadius:30
 };
 function getStored(){try{const x=JSON.parse(localStorage.getItem(STORAGE)||'{}');delete x.token;delete x.apiBase;delete x.lastVapidPublicKey;return {...structuredClone(DEFAULT),...x,notify:{...DEFAULT.notify,...x.notify},favorites:Array.isArray(x.favorites)&&x.favorites.length?x.favorites:structuredClone(DEFAULT.favorites)};}catch{return {...structuredClone(DEFAULT)};}}
@@ -198,31 +198,38 @@ function renderPlaces(){return `${headline('Dine observationssteder','Gem steder
 }
 function toggleRow(key,name,description){return `<div class="toggle-row"><div><strong>${esc(name)}</strong><span>${esc(description)}</span></div><button class="switch ${state.notify[key]?'on':''}" aria-label="${esc(name)}" aria-pressed="${state.notify[key]}" data-action="toggle" data-key="${key}"></button></div>`;}
 function renderSettings(){
+ const hasTopic=/^stjerner-[a-f0-9]{48}$/.test(state.pushTopic||'');
  return `${headline('Indstillinger','Tilpas observationer og dine GitHub/ntfy-varsler')}
  <div class="panel"><div class="section-head"><h2>Observation</h2></div><div class="field"><label for="observe-mode">Sådan vil jeg observere</label><select id="observe-mode" data-field="mode">${Object.entries(MODES).map(([k,v])=>`<option value="${k}" ${state.mode===k?'selected':''}>${v}</option>`).join('')}</select></div>
  <div class="field"><label for="light-field">Lysmiljø i ${esc(place().name)} (din egen vurdering)</label><select id="light-field" data-field="light"><option value="unknown" ${place().light==='unknown'?'selected':''}>Ukendt / ikke målt</option><option value="urban" ${place().light==='urban'?'selected':''}>By med meget lys</option><option value="suburban" ${place().light==='suburban'?'selected':''}>Forstad / mellem</option><option value="rural" ${place().light==='rural'?'selected':''}>Mørkt område på landet</option></select><small>Dette er din vurdering, ikke en automatisk lysmåling.</small></div></div>
- <div class="panel"><div class="section-head"><h2>${ic('bell',19)} Natlige varsler via ntfy</h2></div>
- <div class="notice">Stjerneradar sender beskeder gennem <b>ntfy</b> på din iPhone. <b>GitHub Actions</b> kontrollerer vejret ca. hver halve time, også når appen er lukket. Notifikationer sendes ikke direkte fra hjemmeskærmsappen.</div>
- <div class="inline-actions"><a class="button secondary" href="https://ntfy.sh/" target="_blank" rel="noopener noreferrer">Om ntfy ↗</a><button class="button" data-action="copy-alert-config">${ic('check',16)} Kopiér GitHub-opsætning</button></div>
- <p class="tiny muted">Primært varslingssted: <b>${esc(primary().name)}</b>. Vælg et andet sted under Steder, hvis det ikke er korrekt.</p>
- <div class="toggle-row"><div><strong>Stilleperiode: kl. 23–07</strong><span>Fast regel for GitHub Actions, også ved manuel test. På iPhone bør du også aktivere Fokus/Nattesøvn 23–07 for at sikre, at en forsinket ntfy-levering er lydløs.</span></div><span class="chip">Fast</span></div>
+ <div class="panel"><div class="section-head"><h2>${ic('bell',19)} Personlige stjernealarmer</h2></div>
+ <div class="notice">Som i Nordlysradar: Stjerneradar genererer selv en tilfældig alarmkanal. Du skal kun oprette <b>én GitHub Secret</b>. GitHub Actions kontrollerer vejret i baggrunden, og ntfy viser beskeden på iPhone.</div>
+ <div class="field"><label>1. Installér ntfy på din iPhone</label><a class="button secondary" href="https://apps.apple.com/app/ntfy/id1625396347" target="_blank" rel="noopener noreferrer">Åbn ntfy i App Store ↗</a></div>
+ <div class="field"><label>2. Opret din personlige alarmkanal</label>
+ <div class="push-topic-card"><small>DIT UNIKKE NTFY-KANALNAVN</small><code id="push-topic-value">${hasTopic?esc(state.pushTopic):'Ingen kanal oprettet endnu'}</code>
+ <div class="inline-actions"><button class="button secondary" data-action="generate-topic">${ic('bell',16)} ${hasTopic?'Opret NY alarmkanal':'Opret alarmkanal'}</button>
+ ${hasTopic?`<button class="button secondary" data-action="copy-topic">Kopiér kanal</button>`:''}</div></div>
+ ${hasTopic?`<div class="notice">Åbn <b>ntfy-appen</b>, tryk <b>Subscribe</b>, indsæt det kopierede kanalnavn og godkend. Brug ntfy.sh som server. På iPhone skal abonnementet tilføjes i selve ntfy-appen.</div>`:''}</div>
+ <div class="field"><label>3. Kopiér den samlede GitHub-hemmelighed</label>
+ ${hasTopic?`<button class="button" data-action="copy-alert-config">${ic('check',16)} Kopiér GitHub-hemmelighed</button>`:'<p class="tiny muted">Du skal først oprette en alarmkanal.</p>'}
+ <p class="tiny muted">GitHub → <b>Settings → Secrets and variables → Actions → New repository secret</b>.</p>
+ <div class="notice">Navn på den ene Secret: <strong><code>STJERNERADAR_ALERT_CONFIG</code></strong>. Indsæt hele den kopierede JSON som værdi. Der er ikke behov for en separat NTFY_TOPIC.</div></div>
+ <div class="field"><label>4. Send en testbesked</label><p class="tiny muted">GitHub → Actions → <b>Stjerneradar - Varsler</b> → <b>Run workflow</b>. Markér <b>Send testbesked</b>. Kør testen kl. 07–23 i varslingsstedets tidszone, og kontroller, at den vises i ntfy på iPhone.</p></div>
+ <p class="tiny muted">Primært varslingssted: <b>${esc(primary().name)}</b>. Skift det under Steder. Konfigurationen opdateres ikke automatisk i GitHub, når du ændrer indstillinger på telefonen.</p>
+ <div class="toggle-row"><div><strong>Stilleperiode: kl. 23–07</strong><span>Ingen nye ntfy-beskeder sendes i perioden. Slå desuden iPhones Fokus/Søvn til 23–07, hvis forsinkede leveringer ikke må forstyrre dig.</span></div><span class="chip">Fast</span></div>
  ${toggleRow('early','Tidligt varsel','12–36 timer før en lovende nat.')}
  ${toggleRow('late','Sidste varsel','30–90 minutter før observation.')}
  ${toggleRow('clearing','Uventet opklaring','Når forholdene forbedres tydeligt i forhold til tidligere prognose.')}
  ${toggleRow('events','Særlige begivenheder','Meteorregn, ISS og verificerede himmelbegivenheder.')}
  <div class="field"><label for="alert-threshold">Minimum Stjerneindeks for normalt varsel</label><div class="range-row"><input id="alert-threshold" type="range" min="60" max="95" step="5" value="${state.threshold}" data-field="threshold"><span id="threshold-value">${state.threshold}/100</span></div></div>
  <div class="field"><label for="minimum-hours">Mindste sammenhængende observationsvindue</label><select id="minimum-hours" data-field="minHours">${[1,2,3].map(i=>`<option value="${i}" ${state.minHours===i?'selected':''}>${i} ${i===1?'time':'timer'}</option>`).join('')}</select></div>
- <div class="notice warn"><b>Vigtigt:</b> Indstillinger på telefonen synkroniseres <b>ikke automatisk</b> til GitHub. Efter ændringer skal du trykke "Kopiér GitHub-opsætning" og indsætte teksten i GitHub Secret <b>STJERNERADAR_CONFIG</b>. Der er ingen Cloudflare-opsætning.</div></div>
- <div class="panel"><div class="section-head"><h2>Sådan aktiverer du ntfy</h2></div>
- <p class="tiny muted">1. Installér ntfy på din iPhone. 2. Opret et svært gætteligt topic (20–64 tegn) og abonnér på det i ntfy. 3. Opret hemmeligheden <b>NTFY_TOPIC</b> i GitHub. 4. Opret <b>STJERNERADAR_CONFIG</b> med konfigurationen fra knappen herover. 5. Kør workflowet <b>Stjerneradar · Varsler</b> manuelt med "test_message" for at teste.</p>
- <p class="tiny muted">Se README.md i projektet for en dansk trin-for-trin-vejledning uden Python, Cloudflare eller terminal.</p></div>
+ <div class="notice warn"><b>Efter ændringer:</b> Kopiér GitHub-hemmeligheden igen og opdatér <code>STJERNERADAR_ALERT_CONFIG</code> på GitHub. Hvis du opretter en ny kanal, skal du også ændre abonnementet i ntfy.</div></div>
  <div class="panel"><div class="section-head"><h2>Nordlysradar</h2></div><div class="field"><label for="nordlys-url">Link til din Nordlysradar-app (valgfrit)</label><input id="nordlys-url" data-field="nordlysUrl" type="url" placeholder="https://…" value="${esc(state.nordlysUrl||'')}"></div>${/^https:\/\//.test(state.nordlysUrl||'')?`<a class="button secondary" href="${esc(state.nordlysUrl)}" target="_blank" rel="noopener noreferrer">Åbn Nordlysradar ↗</a>`:''}</div>
  <div class="panel"><div class="section-head"><h2>Installér Stjerneradar på iPhone</h2></div><p class="tiny muted">Åbn din GitHub Pages-adresse i Safari via HTTPS, vælg Del → Føj til hjemmeskærm. Installer ntfy separat for at modtage beskeder.</p></div>
- <div class="panel"><div class="section-head"><h2>Privatliv og data</h2></div><p class="tiny muted">GPS kræver tilladelse. Favoritsteder gemmes på telefonen. Kun når du selv kopierer GitHub-konfigurationen, kan den valgte primære lokation bruges af GitHub Actions. GitHub Secrets opbevarer koordinater og dit private ntfy-topic. Lokal sletning ændrer <b>ikke</b> GitHub Secrets eller ntfy-abonnement.</p>
+ <div class="panel"><div class="section-head"><h2>Privatliv og data</h2></div><p class="tiny muted">GPS kræver tilladelse. Favoritsteder og kanalnavn gemmes på telefonen. Når du selv kopierer GitHub-konfigurationen, kan GitHub Actions bruge din valgte lokation og sende via din kanal. ntfy.sh er en offentlig topic-tjeneste: det lange kanalnavn skal holdes hemmeligt, men giver ikke egentlig adgangskontrol. Lokal sletning fjerner ikke GitHub Secrets eller dit ntfy-abonnement.</p>
  <button class="button danger" data-action="wipe">${ic('trash',15)} Slet lokale indstillinger</button></div>
  <div class="footnote">Data: <a target="_blank" rel="noopener" href="https://open-meteo.com/en/docs/dmi-api">Open-Meteo / DMI</a>, <a target="_blank" rel="noopener" href="https://github.com/cosinekitty/astronomy">Astronomy Engine</a>, <a target="_blank" rel="noopener" href="https://www.imo.net/">IMO</a>, <a target="_blank" rel="noopener" href="https://celestrak.org/">CelesTrak</a> og OpenStreetMap. Privat ikke-kommerciel brug.</div>`;
 }
-
 function render(){astronomyAvailable=!!lib();let body;
  if(state.activeTab==='today')body=renderToday();
  else if(state.activeTab==='week')body=renderWeek();
@@ -311,19 +318,34 @@ function drawMap(){const target=document.getElementById('location-map');if(!targ
  if(ps.length>1){const bounds=L.latLngBounds(ps.map(p=>[p.lat,p.lon]));mapInstance.fitBounds(bounds.pad(.28),{maxZoom:11});}
  setTimeout(()=>mapInstance?.invalidateSize(),150);
 }
-function githubAlertConfig(){const p=primary();return JSON.stringify({
-  alertId:state.instanceId,
+function generateTopic(){
+ if(!globalThis.crypto?.getRandomValues){toast('Sikker generering er ikke tilgængelig. Åbn appen via HTTPS.');return;}
+ if(state.pushTopic&&!confirm('Hvis du opretter en ny kanal, stopper den gamle efter opdatering af GitHub Secret. Du skal abonnere på den nye kanal i ntfy. Fortsæt?'))return;
+ const bytes=new Uint8Array(24);crypto.getRandomValues(bytes);
+ state.pushTopic='stjerner-'+Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join('');
+ save();render();toast('Ny alarmkanal oprettet. Kopiér navnet til ntfy på din iPhone.');
+}
+function githubAlertConfig(){
+ const p=primary();if(!/^stjerner-[a-f0-9]{48}$/.test(state.pushTopic||''))return null;
+ return JSON.stringify({
+  schema_version:2,alertId:state.instanceId,ntfyTopic:state.pushTopic,ntfyServer:'https://ntfy.sh',
   location:{name:p.name,lat:p.lat,lon:p.lon,tz:p.tz||'Europe/Copenhagen',light:p.light||'unknown'},
   mode:state.mode,threshold:state.threshold,minHours:state.minHours,notify:state.notify
-},null,2);}
-async function copyAlertConfig(){
- const text=githubAlertConfig();
- try{await navigator.clipboard.writeText(text);toast('GitHub-konfiguration kopieret. Indsæt den i Secret STJERNERADAR_CONFIG.');}
- catch(e){
-  const textarea=document.createElement('textarea');textarea.value=text;textarea.style.cssText='position:fixed;top:2rem;left:2rem;width:90vw;height:55vh;z-index:1000';
-  document.body.appendChild(textarea);textarea.focus();textarea.select();toast('Markér og kopiér JSON-teksten. Luk tekstfeltet bagefter.');
+ },null,2);
+}
+async function copyText(value,success){
+ try{if(!navigator.clipboard?.writeText)throw Error('Ingen udklipsholder.');await navigator.clipboard.writeText(value);toast(success);}
+ catch{
+  const textarea=document.createElement('textarea');textarea.value=value;
+  textarea.style.cssText='position:fixed;top:2rem;left:4vw;width:92vw;height:55vh;z-index:1000;background:#fff;color:#000;padding:12px';
+  document.body.appendChild(textarea);textarea.focus();textarea.select();
+  toast('Udklipsholderen er blokeret. Markér og kopiér teksten manuelt. Luk tekstfeltet bagefter.');
   textarea.addEventListener('blur',()=>textarea.remove(),{once:true});
  }
+}
+async function copyAlertConfig(){
+ const payload=githubAlertConfig();if(!payload){toast('Opret først en alarmkanal i Stjerneradar.');return;}
+ await copyText(payload,'Kopieret! Gem JSON i den ene Secret STJERNERADAR_ALERT_CONFIG på GitHub.');
 }
 async function wipe(){
  if(!confirm('Slet lokale steder og indstillinger? Dette afmelder IKKE dit ntfy-topic og fjerner IKKE GitHub Secrets.'))return;
@@ -368,7 +390,9 @@ document.addEventListener('click',async e=>{
   if(action==='primary-place')await changePrimary(b.dataset.id);
   if(action==='delete-place')deletePlace(b.dataset.id);
   if(action==='gps')await getGPS();if(action==='compare')await comparePlaces();
-  if(action==='toggle'){state.notify[b.dataset.key]=!state.notify[b.dataset.key];save();render();toast('Gemt lokalt. Kopiér opsætningen til GitHub for at ændre pushvarsler.');}
+  if(action==='generate-topic')generateTopic();
+  if(action==='copy-topic'&&state.pushTopic)await copyText(state.pushTopic,'Kanal kopieret. Tryk Subscribe i ntfy på iPhone.');
+  if(action==='toggle'){state.notify[b.dataset.key]=!state.notify[b.dataset.key];save();render();toast('Gemt lokalt. Opdatér STJERNERADAR_ALERT_CONFIG på GitHub, så push følger dine valg.');}
   if(action==='copy-alert-config')await copyAlertConfig();if(action==='wipe')await wipe();
  }catch(error){toast('Der opstod en fejl: '+error.message);}
 });

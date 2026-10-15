@@ -1,108 +1,79 @@
-# Stjerneradar V1.1 – installation uden Python eller Cloudflare
+# Stjerneradar V1.2 – opdatering og ntfy på iPhone
 
-Denne vejledning er skrevet til Windows + GitHub + iPhone. **Du skal ikke bruge Kommandoprompt, Python, Cloudflare, Vercel eller Node på din computer.** GitHub installerer det nødvendige under de automatiske kørsler.
+**Denne udgave er lavet til dit eksisterende repository:** https://github.com/mikkelfamme/Stjerneradar
 
-## 1. Download ZIP og læg koden på GitHub
+V1.2 virker som Nordlysradar: **Stjerneradar opretter et sikkert, tilfældigt kanalnavn, og du kopierer én samlet GitHub-hemmelighed.** Ingen Python, Cloudflare eller kommandolinje på din computer.
 
-1. Download **Stjerneradar_GitHub_V1.1.zip**, og vælg **Udpak alle** i Windows.
-2. Opret et tomt repository på GitHub: **New repository → navn `stjerneradar` → Create repository**. Vælg `Public`, medmindre du har en GitHub-plan, hvor Pages fungerer for private repos.
-3. Åbn repositoryet, vælg **Add file → Upload files**. Vælg **alle filer og mapper inde i den udpakkede projektmappe** – også `.github` (med undermappen `workflows`). Filerne skal ligge direkte i repository-roden: `index.html`, `app.js`, `.github/workflows/pages.yml`, `.github/workflows/alerts.yml` osv., og **ikke** inde i en ekstra `stjerneradar/`-mappe.
-4. Vælg **Commit changes**. Hvis du allerede har uploadet den gamle version, så upload/overskriv de nye filer. Den gamle `worker/`-mappe kan efterfølgende slettes fra repoet; den bruges ikke mere.
+## A. Opdater din eksisterende Stjerneradar
 
-> **Kontrol:** I GitHubs filoversigt skal du på øverste niveau kunne se `index.html`, `core.js`, `OPSAETNING.md` og mappen `.github`. Klik på `.github/workflows/` og bekræft, at **både** `pages.yml` og `alerts.yml` findes. GitHub web-upload kan variere med browser. Hvis du ikke kan uploade en mappe, vælg dens filer og behold den korrekte mappeplacering ved at oprette filerne på GitHub med deres sti.
+1. Download `Stjerneradar_V1.2_OPDATERING.zip` og vælg **Udpak alle** i Windows.
+2. Åbn https://github.com/mikkelfamme/Stjerneradar → **Code → Add file → Upload files**.
+3. Upload **filerne og mapperne inde i den udpakkede mappe**. VIGTIGT: `.github/workflows/alerts.yml` skal med, og alle filer skal ligge direkte i repositoryets rod som før. Hvis GitHub spørger om overskrivning, skal du bekræfte ændringerne.
+4. Vælg **Commit changes** til `main`.
+5. Under **Actions** vil workflowet **Stjerneradar - Udgiv app** udgive den nye version. Under **Settings → Pages** kan du se appadressen. Den er normalt `https://mikkelfamme.github.io/Stjerneradar/` (store/små bogstaver er vigtige).
+6. Åbn siden på din iPhone, og genindlæs efter at udgivelsen er gennemført. Hvis den gamle Indstillinger-side stadig vises, luk hjemmeskærmsappen helt og åbn den igen (service worker kan have en gammel cache).
 
-## 2. Slå GitHub Pages til
+**Du skal ikke oprette et nyt repository, og du skal ikke slette dine gemte steder eller ændre GitHub Pages-indstillingerne.** V1.2 benytter den eksisterende lokale lagring i browseren, så favoritsteder og øvrige valg normalt bevares på samme enhed.
 
-1. I repositoryet: **Settings → Pages**.
-2. Under **Build and deployment → Source**: vælg **GitHub Actions**.
-3. Åbn **Actions**. Workflowet **Stjerneradar - Udgiv app** skal starte efter et push. Ellers vælg workflowet og tryk **Run workflow**.
-4. Når kørslen er grøn, finder du din adresse under **Settings → Pages**, normalt `https://DIT_BRUGERNAVN.github.io/stjerneradar/`.
-5. Åbn adressen på din iPhone i Safari. Vælg **Del → Føj til hjemmeskærm**, og åbn det nye Stjerneradar-ikon.
+## B. Opret alarmkanal i selve Stjerneradar
 
-Første gang henter stjernekortet sine biblioteker over internettet. Ved manglende astronomi- eller vejrdata viser appen en fejl i stedet for at opfinde en score. GitHub Pages opdaterer ISS-banedata ca. hver 8. time (afhænger af GitHub Actions' starttid og CelesTraks tilgængelighed).
+1. Åbn den **opdaterede Stjerneradar** → tandhjulet **Indstillinger**.
+2. Under **Personlige stjernealarmer** trykker du **Opret alarmkanal**.
+3. Appen genererer nu et langt, tilfældigt kanalnavn, der begynder med `stjerner-`. Kanalen er ikke en konto hos ntfy; den opstår automatisk på ntfy.sh, når du abonnerer på eller sender til navnet. Du skal **ikke** selv finde på et navn.
+4. Tryk **Kopiér kanal**.
+5. Åbn **ntfy** på din iPhone → **Subscribe / Add subscription** → indsæt kanalnavnet → **Subscribe**. Tillad notifikationer til ntfy. Brug serveren `https://ntfy.sh`.
 
-## 3. Installér ntfy på iPhone
+**Vigtigt:** ntfy til iPhone kræver, at du abonnerer i selve ntfy-appen. Stjerneradar kan generere og kopiere navnet, men kan ikke på dine vegne oprette abonnementet inde i iPhone-appen. Det er samme arbejdsgang som i Nordlysradar.
 
-1. Installér **ntfy** fra App Store (se https://ntfy.sh/).
-2. Åbn ntfy → vælg **Subscribe / Add subscription**.
-3. Opret et **langt, unikt og svært gætteligt topic** (20–64 bogstaver/tal; `_` og `-` er også tilladt). Brug eksempelvis ntfys egen topic-generator. **Del det ikke offentligt**. Almindelige topics på ntfy.sh er ikke adgangskodebeskyttede; enhver, der kender navnet, kan i princippet læse eller sende beskeder.
-4. Tillad notifikationer fra ntfy i iPhones indstillinger, og abonnér på topic-navnet. Gem navnet privat.
+## C. Én GitHub Secret – ikke to
 
-## 4. Vælg hvor GitHub skal holde øje med stjernerne
+1. Gå tilbage til Stjerneradar → **Indstillinger**.
+2. Vælg eventuelt først observationsform, varslingssted og Stjerneindeks-grænse.
+3. Tryk **Kopiér GitHub-hemmelighed**. Du kopierer én JSON-tekst med den genererede kanal, det valgte observationssted og dine indstillinger.
+4. Gå til GitHub: https://github.com/mikkelfamme/Stjerneradar/settings/secrets/actions
+5. Klik **New repository secret** og angiv dette navn **præcis**:
 
-1. Åbn den publicerede Stjerneradar-app.
-2. Tryk på **Steder**. Brug **Min GPS** eller søg dit foretrukne sted og gem det.
-3. På stedets række vælger du **klokkeikonet**, hvis du vil gøre det til **primært varslingssted**. Steder, der blot vises på kortet, bliver ikke automatisk overført til GitHub.
-4. Tryk på tandhjulet **Indstillinger**. Vælg observationsform, lysmiljø, varslingsgrænse og hvilke slags varsler, du vil have.
-5. Tryk **Kopiér GitHub-opsætning**. Der kopieres en JSON-tekst med koordinater, et tilfældigt installations-id og dine valg. Opbevar den privat.
-6. Skift til GitHub → dit repository → **Settings → Secrets and variables → Actions → New repository secret**.
-7. Opret secret med præcist navnet **`STJERNERADAR_CONFIG`**. Indsæt hele JSON-teksten som værdi, og gem.
+   `STJERNERADAR_ALERT_CONFIG`
 
-**Vigtigt:** Stjerneradar kan ikke automatisk ændre GitHub Secrets fra telefonen. Når du senere skifter varslingssted eller grænser, skal du trykke **Kopiér GitHub-opsætning** igen og opdatere secretens værdi på GitHub. Foreløbigt defaultsted i appen er **København (eksempel)** – vælg dit eget sted, inden du opretter secret, hvis København ikke er rigtigt.
+6. I **Secret**-feltet indsætter du **hele** den kopierede JSON-tekst, og vælger **Add secret**.
 
-## 5. Aktivér ntfy-forbindelsen på GitHub
+Så er forbindelsen konfigureret. **Du skal ikke oprette `NTFY_TOPIC` eller `STJERNERADAR_CONFIG`.** Gamle værdier fra V1.1 (`NTFY_TOPIC` og `STJERNERADAR_CONFIG`) bruges **ikke** længere. De kan blive stående uden effekt, men du kan slette dem efter en vellykket test, så der ikke opstår tvivl. Du skal IKKE indsætte JSON i en offentlig GitHub-fil eller GitHub issue.
 
-Samme sted på GitHub (**Settings → Secrets and variables → Actions**):
+Bemærk: Gemte indstillinger på din telefon synkroniseres ikke automatisk med GitHub Actions. Ændrer du sted, kanal eller indstillinger, skal du trykke **Kopiér GitHub-hemmelighed** igen og **opdatere** samme Secret med den nye JSON.
 
-1. Opret en anden secret med præcist navnet **`NTFY_TOPIC`**.
-2. Indsæt kun topic-navnet, du netop abonnerede på i ntfy. **Ikke** `https://ntfy.sh/` foran.
-3. Det er de to **obligatoriske** secrets. Du skal **ikke** lave API-nøgler, Cloudflare Worker, VAPID eller betale for en server.
-4. Hvis du bruger en egen ntfy-server, kan du også tilføje variablen `NTFY_SERVER_URL` (fx `https://ntfy.eksempel.dk`) og eventuelt secret `NTFY_TOKEN`. Ved brug af standardserveren `ntfy.sh` skal de ikke sættes.
-5. Valgfrit: Tilføj variablen **`STJERNERADAR_APP_URL`** med din faktiske appadresse, hvis den afviger fra den normale GitHub Pages-adresse.
+## D. Test, om beskeden kommer frem
 
-## 6. Test, at en besked når helt frem
+1. Gå til https://github.com/mikkelfamme/Stjerneradar/actions.
+2. Vælg workflowet **Stjerneradar - Varsler** i venstre side.
+3. Tryk **Run workflow**, vælg `main` og sæt **`test_message` = true**, **`dry_run` = false**.
+4. Kør workflowet og åbn kørslen. En vellykket log skal vise: **`ntfy accepterede testbeskeden (HTTP ...)`**.
+5. Kontrollér at testbeskeden faktisk lander i **ntfy-appen** på din iPhone.
 
-1. Gå til GitHub → **Actions**.
-2. Klik **Stjerneradar - Varsler** i venstre menu.
-3. Tryk **Run workflow**.
-4. Sæt **test_message = true** og **dry_run = false**. Start jobbet.
-5. Kontroller, at jobbet er **grønt**, og åbn jobloggen under **Beregn udsigt og send ntfy-varsler**. Du skal se noget i stil med **“ntfy accepterede test”**.
-6. Kontroller **selv på iPhone**, at beskeden faktisk er modtaget i ntfy. En grøn GitHub Actions-kørsel eller HTTP 200 er ikke en garanti for, at iPhone viser en besked.
+Testbeskeder sendes **kun mellem kl. 07 og ca. 22.50** i dit varslingssteds tidszone. Stjerneradar sender aldrig nye ntfy-notifikationer kl. 23–07. ntfy/telefonen kan levere en allerede accepteret besked senere; brug iPhones **Fokus/Søvn 23–07** som ekstra sikkerhed.
 
-**Test kun mellem kl. 07.00 og 22.50 i det valgte steds tidszone.** Der er en ekstra sikkerhedsmargin inden kl. 23. Test afvises bevidst i stilleperioden. Hvis testen ikke dukker op, kontroller topic-navn, ntfy-abonnement, iOS' meddelelsestilladelse og Fokus-tilstand. Prøv derefter en ny manuel test.
+**V1.2-rettelse:** Testen sender direkte til ntfy og kræver ikke en GitHub-branch eller GitHub API-skriverettigheder. Det fjerner en unødig fejlkilde fra V1.1. En grøn GitHub-kørsel beviser, at ntfy accepterede beskeden; du skal stadig kontrollere modtagelsen på iPhone.
 
-## 7. Automatiske varsler
+## E. Kontrollér de automatiske varsler
 
-- GitHub Actions forsøger en kontrol hver **30. minut** (i cron-minutterne `13` og `43` UTC). GitHub kan forsinke eller springe planlagte kørsler over; tidsplanen er ikke et præcist realtidssystem.
-- **Tidligt varsel:** 12–36 timer før et sammenhængende godt observationsvindue.
-- **Sidste varsel:** 30–90 minutter før. **Uventet opklaring:** Hvis ny prognose er mindst 20 indekspoint bedre end den seneste gemte.
-- **Begivenheder:** Relevante meteorregn, mulige belyste ISS-passager, verificerede formørkelser og eventuelle kometer tilføjet med kilde.
-- **Stilleperiode:** GitHub-koden sender **ingen** ntfy-beskeder kl. **23.00–07.00** i dit primære steds tidszone. Der stoppes allerede fra **22.50** som forsigtighed. **En forsinket iOS/ntfy-levering kan dog i sjældne tilfælde blive vist senere**. Indstil derfor også iPhones **Fokus/Søvn** til 23–07, hvis du absolut ikke vil forstyrres.
-- **Max to almindelige** varsler pr. lokaldøgn og **to særvarsler**. GitHub husker afsendelser i en separat branch, `stjerneradar-alert-state`, så en kørsel ikke varsler gentagne gange om samme nat.
-- Der sendes ikke noget, hvis forecast eller astronomidata fejler. Ingen beskeder sættes i kø til næste morgen.
-- Efter 60 dages inaktivitet kan GitHub slå tidsplaner fra i offentlige repos. Se Actions-fanen og aktivér workflowet igen ved behov.
+Når testen kommer frem, kan du køre workflowet **igen med `test_message = false` og `dry_run = true`** for at kontrollere prognoser uden at sende varsler. Kør derefter en normal kontrol (begge `false`), så GitHub kan oprette varslingshistorik. Repoets workflow skal have adgang til at skrive på state-branchen; se GitHub **Settings → Actions → General → Workflow permissions** ved en `403`.
 
-### Hvordan stopper jeg varslerne?
+GitHub Actions kontrollerer forholdene omkring hver halve time (`13` og `43` minutter efter timen UTC), men GitHub kan forsinke planlagte kørsler. Der er ingen notifikationer i stilleperioden, heller ikke om sjældne begivenheder. Højst to almindelige og to særlige varsler pr. kalenderdag.
 
-Den sikreste og hurtigste metode er **GitHub → Actions → Stjerneradar - Varsler → ⋯ → Disable workflow**. Du kan også fjerne `NTFY_TOPIC`-secret eller afmelde topic i ntfy. At slette lokale indstillinger i Stjerneradar **stopper ikke** GitHub Actions.
+## F. Hvis det stadig fejler
 
-## 8. Almindelige fejl
-
-| Symptom | Sandsynlig forklaring / løsning |
+| Fejl/observation | Hvad gør du? |
 |---|---|
-| `Python blev ikke fundet` | Ingen betydning længere. Du skal ikke bruge Python. |
-| Kun `Stjerneradar - Udgiv app` vises i Actions | Kontrollér at `.github/workflows/alerts.yml` ligger på `main` direkte i repoet. |
-| `STJERNERADAR_CONFIG mangler` | Opret secret med JSON fra appens knap **Kopiér GitHub-opsætning**. |
-| `NTFY_TOPIC ... 20–64 tegn` | Opret et langt tilfældigt topic uden `/`, mellemrum eller hele ntfy-URL'en. |
-| GitHub state-branch kunne ikke oprettes (`403`) | Kontrollér repo Settings → Actions → General → Workflow permissions; Actions skal kunne bruge `contents: write`. Hvis organisationens politik blokerer, må admin give lov. |
-| Grøn workflow, men ingen besked | Åbn ntfy på iPhone; kontroller **præcis samme topic**, meddelelsestilladelse og at klokken ikke er i stilleperioden. |
-| ISS ikke vist | CelesTrak-data kunne ikke hentes eller var forældede. Se sidste **Stjerneradar - Udgiv app**-kørsel; de vises ikke som sikre passager, når datakilden fejler. |
-| App viser en gammel version | Åbn igen i Safari og opdater; PWA-serviceworkeren kan have gemt gamle filer. Luk/genåbn hjemmeskærmsappen efter opdatering. |
-| Nattekortet viser ingen score | Tjek internet, Open-Meteo og astronomibiblioteket. Appen opfinder ikke prognoser. |
+| `STJERNERADAR_ALERT_CONFIG mangler` | Opret den ENE Secret på GitHub med JSON fra appens **Kopiér GitHub-hemmelighed**. |
+| `Alarmkanal mangler` | Tryk **Opret alarmkanal** i appen og kopiér en NY samlet Secret. |
+| `NTFY_TOPIC skal være ...` | Den samlede Secret har en ugyldig topic; kopiér igen fra appen, ikke kun kanalnavnet. |
+| Testjobbet er grønt, men der kommer ingen besked | Kontrollér at ntfy abonnerer på *samme* kanal; se ntfy-notifikationstilladelse, netforbindelse og Fokus. Test igen mellem 07 og 22.50. |
+| Testen bliver ikke sendt i stilleperioden | Det er tilsigtet. Send ny test efter kl. 07 på varslingsstedet. |
+| `GitHub API 403` ved normale kontroller | Kontrollér **Actions → General → Workflow permissions**. Test-notifikationer kræver ikke GitHub state-skriveadgang; automatisk deduplikation gør. |
+| Gamle knapper/indstillinger vises | Tjek at `app.js` er overskrevet i repoet, at Pages-udgivelsen er grøn, og genåbn PWA'en. |
+| Kun en ZIP-fil vises i repoet | ZIP skal **udpakkes på Windows**; upload *indholdet*, ikke ZIP-filen. |
 
-## Privatliv og tekniske begrænsninger
+## Privatliv
 
-- Appen kører på **GitHub Pages**. Hvis repositoryet er offentligt, er frontenden offentligt tilgængelig. **Ingen ntfy-topic eller secret lægges i den publicerede side.**
-- Dine favoritsteder er lokale. Den lokation, du selv kopierer til GitHub Secret, bruges af det serverkørende varslingsjob. Ingen baggrunds-GPS på iPhone.
-- En særlig `stjerneradar-alert-state`-branch gemmer deduplikation og tidsstempler, ikke koordinater eller topic. Ved offentligt repo er branchens indhold synligt; det kan bl.a. afsløre, at nogen har fået et varsel på et tidspunkt.
-- Lysforurening er manuelt valgt. Stjerneindekset er en model, ikke en målt observérbarhed eller garanti.
-- ISS er beregnet ud fra offentlig TLE med en forenklet skyggemodel. Kometer vises kun med verificerede data, og registeret er tomt, indtil konkrete oplysninger tilføjes.
-- Gratis Open-Meteo-datakilder er tiltænkt ikke-kommerciel brug under gældende brugsregler. GitHub og ntfy har egne grænser og tilgængelighedsvilkår.
+Appen gemmer kanalnavnet lokalt på den enhed, hvor det oprettes. GitHub Secret skjuler det for besøgende i repoet. Offentlige ntfy.sh-topics er **ikke adgangskodebeskyttede**; dit lange tilfældige kanalnavn fungerer som en hemmelig nøgle. Del ikke kanalnavnet offentligt. En anden, som får det, kan muligvis lytte eller sende til kanalen. Stjerneradar lægger ikke emnet ind i offentlige GitHub Pages-filer.
 
-## Officielle henvisninger
-
-- [GitHub Pages med GitHub Actions](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)
-- [GitHub Actions – tidsplaner](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)
-- [ntfy – kom i gang](https://docs.ntfy.sh/)
-- [ntfy – publicering og cache](https://docs.ntfy.sh/publish/)
-- [Open-Meteo DMI](https://open-meteo.com/en/docs/dmi-api)
+Koden og 37 automatiske tests kan køres på GitHub uden Python på din Windows-pc. En rigtig iPhone-levering kan først verificeres efter GitHub-opsætning.

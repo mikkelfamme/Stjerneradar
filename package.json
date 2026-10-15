@@ -1,7 +1,7 @@
 {
   "name": "stjerneradar",
   "private": true,
-  "version": "1.1.0",
+  "version": "1.2.0",
   "type": "module",
   "description": "Stjerneradar PWA - GitHub Pages + GitHub Actions + ntfy",
   "scripts": {
@@ -13,5 +13,7 @@
     "astronomy-engine": "2.1.19",
     "satellite.js": "6.0.2"
   },
-  "engines": {"node": ">=20"}
+  "engines": {
+    "node": ">=20"
+  }
 }

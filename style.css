@@ -36,3 +36,8 @@ button:focus-visible,input:focus-visible,select:focus-visible,.interactive:focus
 .toast{position:fixed;z-index:90;left:20px;right:20px;bottom:110px;max-width:700px;margin:auto;background:#1b3b50;color:white;border:1px solid #68bbbd77;padding:13px 16px;border-radius:14px;box-shadow:0 14px 35px #0008;font-size:13px}
 @media(min-width:700px){.app-shell{padding-bottom:120px}.tabs{left:50%;right:auto;transform:translateX(-50%);width:min(100%,790px);border:1px solid #243951;border-bottom:0;border-radius:20px 20px 0 0}.hero-mid{justify-content:space-around}.hero-description{max-width:60%}.page-title h1{font-size:33px}}
 @media(max-width:360px){.app-shell{padding-left:11px;padding-right:11px}.score-ring{width:110px;height:110px}.score-n{font-size:33px}.hero-description{font-size:22px}.tab{min-width:48px}.metric{padding:12px 7px}.main-hero{padding:16px}}
+
+/* V1.2: private ntfy channel setup, like Nordlysradar */
+.push-topic-card{background:rgba(16,28,52,.78);border:1px solid rgba(162,185,222,.27);border-radius:14px;padding:14px;margin:10px 0 14px}
+.push-topic-card>small{display:block;font-size:.72rem;letter-spacing:.07em;opacity:.73;margin-bottom:9px}
+.push-topic-card>code{display:block;overflow-wrap:anywhere;word-break:break-word;font-size:.81rem;line-height:1.6;padding:10px;border-radius:9px;background:rgba(3,8,19,.5);margin-bottom:12px;user-select:all}

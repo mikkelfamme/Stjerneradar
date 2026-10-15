@@ -1,16 +1,12 @@
 /* GitHub Actions entrypoint. No Cloudflare, no Python, no server running on user's phone. */
-import * as Astronomy from 'astronomy-engine';
-import * as satellite from 'satellite.js';
 import {weatherUrl,forecastRows,scoreHour,canDispatchPush} from '../core.js';
-import {parseConfig,normalizeState,saveSnapshots,proposeAlerts,readyToSend,markSent} from './alert-logic.mjs';
+import {normalizeState,saveSnapshots,proposeAlerts,readyToSend,markSent} from './alert-logic.mjs';
+import {resolveAlertSetup} from './alert-config.mjs';
 import {createStateClient} from './github-state.mjs';
-import {validateNtfy,publishNtfy} from './notify-ntfy.mjs';
+import {publishNtfy} from './notify-ntfy.mjs';
 import {upcomingMeteors,nearbyEclipses,upcomingComets,getFreshTle,upcomingIss} from './events-node.mjs';
 
-const config=parseConfig(process.env.STJERNERADAR_CONFIG);
-const topic=process.env.NTFY_TOPIC||'';
-const ntfyUrl=process.env.NTFY_SERVER_URL||'https://ntfy.sh';
-validateNtfy({topic,serverUrl:ntfyUrl});
+const {config,topic,serverUrl:ntfyUrl}=resolveAlertSetup(process.env);
 const now=Date.now(),tz=config.location.tz;
 const test=process.env.TEST_MESSAGE==='true';
 const dry=process.env.DRY_RUN==='true';
@@ -18,13 +14,31 @@ if(!canDispatchPush(now,tz)){
  console.log('Stilleperiode kl. 23–07 i '+tz+'. Ingen beskeder (heller ikke test) og ingen forsinket kø.');
  process.exit(0);
 }
+const appUrl=(()=>{
+ const repo=process.env.GITHUB_REPOSITORY||'';
+ const parts=repo.split('/');
+ return (process.env.APP_URL||(parts.length===2?`https://${parts[0]}.github.io/${parts[1]}/`:'' )).replace(/\/$/,'');
+})();
+if(test){
+ if(dry){console.log('TEST (toerkoersel): ntfy ville faa en testbesked, men dry_run er slaaet til.');process.exit(0);}
+ const notice={key:'test:'+now,kind:'test',title:'Stjerneradar · Test',
+  body:'Test fra Stjerneradars GitHub Actions. Du er nu koblet til din nye alarmkanal. Kontroller at du modtager beskeden i ntfy paa iPhone.',tab:'today'};
+ // A test needs NO GitHub branch, GitHub API or write permissions.
+ const r=await publishNtfy({topic,serverUrl:ntfyUrl,authToken:process.env.NTFY_TOKEN||'',notice,
+  timezone:tz,now:Date.now(),appUrl});
+ if(r.ok)console.log('ntfy accepterede testbeskeden (HTTP '+r.status+'). Se nu efter den i ntfy paa iPhone.');
+ else console.log('Testbesked IKKE sendt: '+r.skipped);
+ process.exit(0);
+}
+// Load astronomy dependencies only for forecast checks, never for a simple ntfy test.
+const Astronomy=await import('astronomy-engine');
+const satellite=await import('satellite.js');
 const gh=createStateClient({token:process.env.GITHUB_TOKEN,repository:process.env.GITHUB_REPOSITORY,sha:process.env.GITHUB_SHA});
 const loaded=await gh.read();const state=normalizeState(loaded.data,config);
 let revision=loaded.sha;
 let touched=!loaded.exists||state.siteKey!==loaded.data?.siteKey;
-const appUrl=(process.env.APP_URL||`https://${process.env.GITHUB_REPOSITORY.split('/')[0]}.github.io/${process.env.GITHUB_REPOSITORY.split('/')[1]}/`).replace(/\/$/,'');
 async function send(alert){
- if(dry){console.log('TØRKØRSEL: Varsel '+alert.kind+' ville blive sendt ('+alert.key.split(':').slice(-2).join(':')+').');return false;}
+ if(dry){console.log('TOERKOERSEL: Varsel '+alert.kind+' ville blive sendt.');return false;}
  if(!readyToSend(state,alert,Date.now(),tz))return false;
  const r=await publishNtfy({topic,serverUrl:ntfyUrl,authToken:process.env.NTFY_TOKEN||'',notice:alert,timezone:tz,
   now:Date.now(),appUrl});
@@ -33,10 +47,6 @@ async function send(alert){
  // Persist each accepted message, reducing duplicates after retries or errors.
  revision=await gh.save(state,revision);touched=false;
  console.log('ntfy accepterede '+alert.kind+'. Det er ikke en iPhone-leveringskvittering.');return true;
-}
-if(test){
- await send({key:'test:'+Date.now(),kind:'test',title:'Stjerneradar · Test',body:'Test fra GitHub Actions: Stjerneradar kan sende beskeder til ntfy. Kontrollér om den vises på din iPhone.',tab:'today'});
- console.log('Testkørsel afsluttet.');process.exit(0);
 }
 
 async function downloadForecast(){let last='';

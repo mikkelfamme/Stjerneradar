@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {parseConfig,initialState,normalizeState,proposeAlerts,markSent,readyToSend,saveSnapshots,ordinaryCount,specialCount} from '../scripts/alert-logic.mjs';
 import {validateNtfy,publishNtfy} from '../scripts/notify-ntfy.mjs';
+import {resolveAlertSetup} from '../scripts/alert-config.mjs';
 import {parseTle} from '../iss-core.js';
 
 const options={location:{name:'Teststed',lat:55.6761,lon:12.5683,tz:'Europe/Copenhagen',light:'rural'},mode:'eyes',threshold:80,minHours:1,notify:{early:true,late:true,clearing:true,events:true}};
@@ -96,4 +97,29 @@ test('DMI og fallback-API får hver deres understøttede vejrvariabler',async()=
  assert.ok(dmi.searchParams.get('hourly').includes('cloud_cover_2m'));
  assert.equal(fallback.searchParams.get('hourly').includes('cloud_cover_2m'),false);
  assert.equal(dmi.searchParams.get('hourly').includes('precipitation_probability'),false);
+});
+
+
+test('ny ntfy-opsætning kræver kun én samlet GitHub Secret',()=>{
+ const topic='stjerner-'+('abcdef01'.repeat(6));
+ const newPayload=JSON.stringify({...options,schema_version:2,ntfyTopic:topic,ntfyServer:'https://ntfy.sh'});
+ const setup=resolveAlertSetup({STJERNERADAR_ALERT_CONFIG:newPayload});
+ assert.equal(setup.topic,topic);
+ assert.equal(setup.config.location.name,'Teststed');
+ assert.equal(setup.serverUrl,'https://ntfy.sh');
+ assert.equal(setup.config.threshold,80);
+});
+test('gamle V1.1-secrets bruges ikke og kan ikke sende til en forkert kanal',()=>{
+ assert.throws(()=>resolveAlertSetup({STJERNERADAR_CONFIG:JSON.stringify(options),NTFY_TOPIC:'z'.repeat(30)}),/STJERNERADAR_ALERT_CONFIG/);
+});
+test('ugyldig eller manglende samlet Secret giver vejledning frem for skjult fejl',()=>{
+ assert.throws(()=>resolveAlertSetup({}),/STJERNERADAR_ALERT_CONFIG/);
+ assert.throws(()=>resolveAlertSetup({STJERNERADAR_ALERT_CONFIG:JSON.stringify(options)}),/Opret alarmkanal/);
+ assert.throws(()=>resolveAlertSetup({STJERNERADAR_ALERT_CONFIG:JSON.stringify({...options,ntfyTopic:'kort'})}),/NTFY_TOPIC/);
+});
+test('ny samlet Secret ignorerer gamle indstillinger ved migrering',()=>{
+ const topic='stjerner-'+('abcdef09'.repeat(6));
+ const mixed=resolveAlertSetup({STJERNERADAR_ALERT_CONFIG:JSON.stringify({...options,ntfyTopic:topic}),
+  STJERNERADAR_CONFIG:JSON.stringify(options),NTFY_TOPIC:'legacy-topic-1234567890'});
+ assert.equal(mixed.topic,topic);
 });

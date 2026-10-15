@@ -1,5 +1,5 @@
-/* Stjerneradar V1.1 service worker: offline shell. ntfy is a separate iPhone app. */
-const VERSION='stjerneradar-1.1.0';
+/* Stjerneradar V1.2 service worker: offline shell. ntfy is a separate iPhone app. */
+const VERSION='stjerneradar-1.2.0';
 const SHELL=['./','./index.html','./app.js','./astro.js','./core.js','./iss-core.js','./iss-browser.js','./style.css','./manifest.webmanifest',
  './icons/icon-192.png','./icons/icon-512.png','./icons/apple-touch-icon.png'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(VERSION).then(cache=>cache.addAll(SHELL)).then(()=>self.skipWaiting()));});
@@ -17,5 +17,5 @@ self.addEventListener('fetch',event=>{
   event.respondWith((async()=>{try{const net=await fetch(request);if(net.ok)return net;throw new Error('Offline');}
    catch{return await caches.match('./index.html')||Response.error();}})());return;
  }
- event.respondWith(caches.match(request).then(cached=>cached||fetch(request)));
+ event.respondWith((async()=>{try{const net=await fetch(request);if(net.ok){const cache=await caches.open(VERSION);await cache.put(request,net.clone());}return net;}catch{return await caches.match(request)||Response.error();}})());
 });

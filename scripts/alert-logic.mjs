@@ -1,4 +1,4 @@
-/* Stjerneradar V1.1 - pure alert decisions, shared with regression tests. */
+/* Stjerneradar V1.2 - pure alert decisions, shared with regression tests. */
 import {clampLocation,findWindows,alertEligibility,canDispatchPush,localNightKey,localDate,formatClock,formatDate} from '../core.js';
 import {createHash} from 'node:crypto';
 
@@ -6,19 +6,20 @@ const MODES=new Set(['eyes','binoculars','planets','deep']);
 const LIGHTS=new Set(['unknown','urban','suburban','rural']);
 const str=v=>typeof v==='string'?v.trim():'';
 export function parseConfig(value){
-  if(!value)throw Error('GitHub Secret STJERNERADAR_CONFIG mangler. Kopier JSON fra appens Indstillinger.');
-  let x;try{x=typeof value==='string'?JSON.parse(value):value;}catch{throw Error('STJERNERADAR_CONFIG er ikke gyldig JSON.');}
-  if(!x||typeof x!=='object'||Array.isArray(x))throw Error('STJERNERADAR_CONFIG skal være et JSON-objekt.');
+  if(!value)throw Error('GitHub Secret STJERNERADAR_ALERT_CONFIG mangler. Aabn Stjerneradar > Indstillinger > Opret alarmkanal > Kopier GitHub-hemmelighed og gem den som denne ene Secret.');
+  let x;try{x=typeof value==='string'?JSON.parse(value):value;}catch{throw Error('STJERNERADAR_ALERT_CONFIG er ikke gyldig JSON. Kopier HELE teksten fra appen.');}
+  if(!x||typeof x!=='object'||Array.isArray(x))throw Error('STJERNERADAR_ALERT_CONFIG skal være et JSON-objekt.');
   const loc=x.location||{};
   const {lat,lon}=clampLocation(loc.lat,loc.lon);
   const tz=str(loc.tz)||'Europe/Copenhagen';
-  try{new Intl.DateTimeFormat('en-GB',{timeZone:tz});}catch{throw Error('Ugyldig tidszone i STJERNERADAR_CONFIG.');}
+  try{new Intl.DateTimeFormat('en-GB',{timeZone:tz});}catch{throw Error('Ugyldig tidszone i GitHub varslings-konfiguration.');}
   const threshold=Number(x.threshold??80),minHours=Number(x.minHours??1);
   if(!Number.isInteger(threshold)||threshold<60||threshold>95)throw Error('Indeksgrænse skal være mellem 60 og 95.');
   if(!Number.isInteger(minHours)||minHours<1||minHours>3)throw Error('Mindste antal timer skal være 1, 2 eller 3.');
   return {
     location:{lat,lon,tz,name:str(loc.name).slice(0,60)||'Mit observationssted',light:LIGHTS.has(loc.light)?loc.light:'unknown'},
     alertId:/^[A-Za-z0-9_-]{8,128}$/.test(x.alertId||'')?x.alertId:'',
+    ntfyTopic:str(x.ntfyTopic||x.pushTopic),ntfyServer:str(x.ntfyServer),
     mode:MODES.has(x.mode)?x.mode:'eyes',threshold,minHours,
     notify:{early:x.notify?.early!==false,late:x.notify?.late!==false,
       clearing:x.notify?.clearing!==false,events:x.notify?.events!==false}
