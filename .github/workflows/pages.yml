@@ -1,0 +1,45 @@
+name: Stjerneradar - Udgiv app
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    # Nye offentlige ISS-banedata tre gange i døgnet.
+    - cron: '27 */8 * * *'
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: stjerneradar-pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test appens beregningsregler
+        run: npm test
+      - name: Udgiv kun offentlige filer - aldrig GitHub Secrets
+        run: |
+          mkdir site
+          cp index.html style.css app.js core.js astro.js iss-core.js iss-browser.js sw.js manifest.webmanifest verified-events.json site/
+          cp -r icons site/
+      - name: Hent aktuelle ISS-banedata til appen
+        run: node scripts/build-iss-feed.mjs site/iss-tle.json
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
