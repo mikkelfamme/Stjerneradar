@@ -54,243 +54,215 @@
     }
   },
   "snapshots": {
-    "1795356000000": {
-      "score": 0,
-      "checkedAt": 1795359323548
-    },
-    "1795359600000": {
-      "score": 15,
-      "checkedAt": 1795359323548
-    },
-    "1795363200000": {
-      "score": 38,
-      "checkedAt": 1795359323548
-    },
-    "1795366800000": {
-      "score": 57,
-      "checkedAt": 1795359323548
-    },
-    "1795370400000": {
-      "score": 61,
-      "checkedAt": 1795359323548
-    },
-    "1795374000000": {
-      "score": 38,
-      "checkedAt": 1795359323548
-    },
-    "1795377600000": {
-      "score": 15,
-      "checkedAt": 1795359323548
-    },
     "1795381200000": {
-      "score": 11,
-      "checkedAt": 1795359323548
+      "score": 3,
+      "checkedAt": 1795381313349
     },
     "1795384800000": {
-      "score": 6,
-      "checkedAt": 1795359323548
+      "score": 3,
+      "checkedAt": 1795381313349
     },
     "1795388400000": {
-      "score": 19,
-      "checkedAt": 1795359323548
+      "score": 34,
+      "checkedAt": 1795381313349
     },
     "1795392000000": {
-      "score": 53,
-      "checkedAt": 1795359323548
+      "score": 47,
+      "checkedAt": 1795381313349
     },
     "1795395600000": {
-      "score": 59,
-      "checkedAt": 1795359323548
+      "score": 56,
+      "checkedAt": 1795381313349
     },
     "1795399200000": {
-      "score": 50,
-      "checkedAt": 1795359323548
+      "score": 53,
+      "checkedAt": 1795381313349
     },
     "1795402800000": {
-      "score": 69,
-      "checkedAt": 1795359323548
+      "score": 72,
+      "checkedAt": 1795381313349
     },
     "1795406400000": {
       "score": 74,
-      "checkedAt": 1795359323548
+      "checkedAt": 1795381313349
     },
     "1795410000000": {
       "score": 63,
-      "checkedAt": 1795359323548
+      "checkedAt": 1795381313349
     },
     "1795413600000": {
       "score": 38,
-      "checkedAt": 1795359323548
+      "checkedAt": 1795381313349
     },
     "1795417200000": {
       "score": 15,
-      "checkedAt": 1795359323548
+      "checkedAt": 1795381313349
     },
     "1795420800000": {
       "score": 0,
-      "checkedAt": 1795359323548
+      "checkedAt": 1795381313349
     },
     "1795424400000": {
       "score": 0,
-      "checkedAt": 1795359323548
+      "checkedAt": 1795381313349
     },
     "1795428000000": {
       "score": 0,
-      "checkedAt": 1795359323548
+      "checkedAt": 1795381313349
     },
     "1795431600000": {
       "score": 0,
-      "checkedAt": 1795359323548
+      "checkedAt": 1795381313349
     },
     "1795435200000": {
       "score": 0,
-      "checkedAt": 1795359323548
+      "checkedAt": 1795381313349
     },
     "1795438800000": {
       "score": 0,
-      "checkedAt": 1795359323548
+      "checkedAt": 1795381313349
     },
     "1795442400000": {
       "score": 0,
-      "checkedAt": 1795359323548
+      "checkedAt": 1795381313349
     },
     "1795446000000": {
-      "score": 8,
-      "checkedAt": 1795359323548
+      "score": 14,
+      "checkedAt": 1795381313349
     },
     "1795449600000": {
-      "score": 2,
-      "checkedAt": 1795359323548
+      "score": 8,
+      "checkedAt": 1795381313349
     },
     "1795453200000": {
       "score": 2,
-      "checkedAt": 1795359323548
+      "checkedAt": 1795381313349
     },
     "1795456800000": {
       "score": 1,
-      "checkedAt": 1795359323548
+      "checkedAt": 1795381313349
     },
     "1795460400000": {
       "score": 2,
-      "checkedAt": 1795359323548
+      "checkedAt": 1795381313349
     },
     "1795464000000": {
-      "score": 6,
-      "checkedAt": 1795359323548
+      "score": 7,
+      "checkedAt": 1795381313349
     },
     "1795467600000": {
-      "score": 15,
-      "checkedAt": 1795359323548
+      "score": 21,
+      "checkedAt": 1795381313349
     },
     "1795471200000": {
-      "score": 15,
-      "checkedAt": 1795359323548
+      "score": 23,
+      "checkedAt": 1795381313349
     },
     "1795474800000": {
-      "score": 24,
-      "checkedAt": 1795359323548
+      "score": 14,
+      "checkedAt": 1795381313349
     },
     "1795478400000": {
-      "score": 45,
-      "checkedAt": 1795359323548
+      "score": 30,
+      "checkedAt": 1795381313349
     },
     "1795482000000": {
-      "score": 54,
-      "checkedAt": 1795359323548
+      "score": 44,
+      "checkedAt": 1795381313349
     },
     "1795485600000": {
-      "score": 51,
-      "checkedAt": 1795359323548
+      "score": 29,
+      "checkedAt": 1795381313349
     },
     "1795489200000": {
-      "score": 33,
-      "checkedAt": 1795359323548
+      "score": 19,
+      "checkedAt": 1795381313349
     },
     "1795492800000": {
-      "score": 51,
-      "checkedAt": 1795359323548
+      "score": 48,
+      "checkedAt": 1795381313349
     },
     "1795496400000": {
       "score": 63,
-      "checkedAt": 1795359323548
+      "checkedAt": 1795381313349
     },
     "1795500000000": {
       "score": 38,
-      "checkedAt": 1795359323548
+      "checkedAt": 1795381313349
     },
     "1795503600000": {
       "score": 15,
-      "checkedAt": 1795359323548
+      "checkedAt": 1795381313349
     },
     "1795507200000": {
       "score": 0,
-      "checkedAt": 1795359323548
+      "checkedAt": 1795381313349
     },
     "1795510800000": {
       "score": 0,
-      "checkedAt": 1795359323548
+      "checkedAt": 1795381313349
     },
     "1795514400000": {
       "score": 0,
-      "checkedAt": 1795359323548
+      "checkedAt": 1795381313349
     },
     "1795518000000": {
       "score": 0,
-      "checkedAt": 1795359323548
+      "checkedAt": 1795381313349
     },
     "1795521600000": {
       "score": 0,
-      "checkedAt": 1795359323548
+      "checkedAt": 1795381313349
     },
     "1795525200000": {
       "score": 0,
-      "checkedAt": 1795359323548
+      "checkedAt": 1795381313349
     },
     "1795528800000": {
       "score": 0,
-      "checkedAt": 1795359323548
+      "checkedAt": 1795381313349
+    },
+    "1795532400000": {
+      "score": 15,
+      "checkedAt": 1795381313349
+    },
+    "1795536000000": {
+      "score": 38,
+      "checkedAt": 1795381313349
+    },
+    "1795539600000": {
+      "score": 63,
+      "checkedAt": 1795381313349
+    },
+    "1795543200000": {
+      "score": 71,
+      "checkedAt": 1795381313349
+    },
+    "1795546800000": {
+      "score": 70,
+      "checkedAt": 1795381313349
+    },
+    "1795550400000": {
+      "score": 58,
+      "checkedAt": 1795381313349
+    },
+    "1795554000000": {
+      "score": 54,
+      "checkedAt": 1795381313349
     }
   },
-  "lastSnapshotAt": 1795359323548,
+  "lastSnapshotAt": 1795381313349,
   "tle": {
-    "line1": "1 25544U 98067A   26326.17166235  .00010101  00000+0  18757-3 0  9993",
-    "line2": "2 25544  51.6321 238.2738 0007393  52.3454 307.8204 15.49546258596247",
-    "checkedAt": 1795359323548
+    "line1": "1 25544U 98067A   26326.55861648  .00009004  00000+0  16808-3 0  9990",
+    "line2": "2 25544  51.6321 236.3579 0007404  53.9088 306.2585 15.49552037596306",
+    "checkedAt": 1795381313349
   },
   "metNorwayForecastCache": {
-    "fetchedAt": 1795359398087,
+    "fetchedAt": 1795381314114,
     "rows": [
       {
-        "time": 1795356000000,
-        "clouds": 71.5,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": 0,
-        "precipitationProb": null,
-        "temp": 4,
-        "humidity": 69.9,
-        "wind": 15.48
-      },
-      {
-        "time": 1795359600000,
-        "clouds": 56.5,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": 0,
-        "precipitationProb": null,
-        "temp": 3.3,
-        "humidity": 73.3,
-        "wind": 11.520000000000001
-      },
-      {
-        "time": 1795363200000,
-        "clouds": 38.5,
+        "time": 1795377600000,
+        "clouds": 92.6,
         "low": null,
         "mid": null,
         "high": null,
@@ -299,12 +271,40 @@
         "precipitation": 0,
         "precipitationProb": null,
         "temp": 2.7,
-        "humidity": 75.8,
-        "wind": 10.8
+        "humidity": 66,
+        "wind": 20.88
       },
       {
-        "time": 1795366800000,
-        "clouds": 21.8,
+        "time": 1795381200000,
+        "clouds": 98.6,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": 0,
+        "precipitationProb": null,
+        "temp": 2.8,
+        "humidity": 66.8,
+        "wind": 19.8
+      },
+      {
+        "time": 1795384800000,
+        "clouds": 98.5,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": 0,
+        "precipitationProb": null,
+        "temp": 2.6,
+        "humidity": 68.2,
+        "wind": 16.92
+      },
+      {
+        "time": 1795388400000,
+        "clouds": 55.1,
         "low": null,
         "mid": null,
         "high": null,
@@ -313,96 +313,12 @@
         "precipitation": 0,
         "precipitationProb": null,
         "temp": 2.4,
-        "humidity": 71.5,
-        "wind": 13.32
-      },
-      {
-        "time": 1795370400000,
-        "clouds": 16.6,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": 0,
-        "precipitationProb": null,
-        "temp": 2.6,
-        "humidity": 65.8,
-        "wind": 18
-      },
-      {
-        "time": 1795374000000,
-        "clouds": 49.3,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": 0,
-        "precipitationProb": null,
-        "temp": 2.7,
-        "humidity": 66.6,
-        "wind": 20.52
-      },
-      {
-        "time": 1795377600000,
-        "clouds": 81.6,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": 0,
-        "precipitationProb": null,
-        "temp": 2.8,
-        "humidity": 67,
-        "wind": 20.52
-      },
-      {
-        "time": 1795381200000,
-        "clouds": 87.8,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": 0,
-        "precipitationProb": null,
-        "temp": 2.8,
-        "humidity": 67.3,
-        "wind": 18.720000000000002
-      },
-      {
-        "time": 1795384800000,
-        "clouds": 94.1,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": 0,
-        "precipitationProb": null,
-        "temp": 2.6,
         "humidity": 68,
-        "wind": 16.92
-      },
-      {
-        "time": 1795388400000,
-        "clouds": 76.1,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": 0,
-        "precipitationProb": null,
-        "temp": 2.5,
-        "humidity": 69,
-        "wind": 16.2
+        "wind": 17.64
       },
       {
         "time": 1795392000000,
-        "clouds": 27.3,
+        "clouds": 36.6,
         "low": null,
         "mid": null,
         "high": null,
@@ -410,13 +326,13 @@
         "visibility": null,
         "precipitation": 0,
         "precipitationProb": null,
-        "temp": 2.2,
-        "humidity": 71,
-        "wind": 13.68
+        "temp": 2,
+        "humidity": 70.5,
+        "wind": 15.48
       },
       {
         "time": 1795395600000,
-        "clouds": 19,
+        "clouds": 22.5,
         "low": null,
         "mid": null,
         "high": null,
@@ -424,27 +340,13 @@
         "visibility": null,
         "precipitation": 0,
         "precipitationProb": null,
-        "temp": 1.8,
-        "humidity": 73.6,
-        "wind": 12.6
+        "temp": 1.6,
+        "humidity": 73.7,
+        "wind": 13.32
       },
       {
         "time": 1795399200000,
-        "clouds": 31.6,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": 0,
-        "precipitationProb": null,
-        "temp": 1.4,
-        "humidity": 77.3,
-        "wind": 11.16
-      },
-      {
-        "time": 1795402800000,
-        "clouds": 3.7,
+        "clouds": 27.2,
         "low": null,
         "mid": null,
         "high": null,
@@ -453,12 +355,12 @@
         "precipitation": 0,
         "precipitationProb": null,
         "temp": 1.1,
-        "humidity": 79.8,
+        "humidity": 77.9,
         "wind": 11.16
       },
       {
-        "time": 1795406400000,
-        "clouds": 0.8,
+        "time": 1795402800000,
+        "clouds": 0.4,
         "low": null,
         "mid": null,
         "high": null,
@@ -466,13 +368,27 @@
         "visibility": null,
         "precipitation": 0,
         "precipitationProb": null,
-        "temp": 1,
-        "humidity": 79.5,
-        "wind": 11.16
+        "temp": 0.8,
+        "humidity": 79.6,
+        "wind": 10.8
+      },
+      {
+        "time": 1795406400000,
+        "clouds": 0.4,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": 0,
+        "precipitationProb": null,
+        "temp": 0.7,
+        "humidity": 78.6,
+        "wind": 12.24
       },
       {
         "time": 1795410000000,
-        "clouds": 0.5,
+        "clouds": 0.7,
         "low": null,
         "mid": null,
         "high": null,
@@ -481,12 +397,12 @@
         "precipitation": 0,
         "precipitationProb": null,
         "temp": 0.9,
-        "humidity": 78.5,
-        "wind": 11.520000000000001
+        "humidity": 75.6,
+        "wind": 13.68
       },
       {
         "time": 1795413600000,
-        "clouds": 0.8,
+        "clouds": 0.6,
         "low": null,
         "mid": null,
         "high": null,
@@ -494,27 +410,13 @@
         "visibility": null,
         "precipitation": 0,
         "precipitationProb": null,
-        "temp": 1.1,
-        "humidity": 77.3,
-        "wind": 12.24
+        "temp": 1.2,
+        "humidity": 74.2,
+        "wind": 14.76
       },
       {
         "time": 1795417200000,
-        "clouds": 4.7,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": 0,
-        "precipitationProb": null,
-        "temp": 1,
-        "humidity": 77.7,
-        "wind": 11.520000000000001
-      },
-      {
-        "time": 1795420800000,
-        "clouds": 33.8,
+        "clouds": 7.7,
         "low": null,
         "mid": null,
         "high": null,
@@ -523,68 +425,12 @@
         "precipitation": 0,
         "precipitationProb": null,
         "temp": 1.4,
-        "humidity": 77.3,
-        "wind": 10.8
-      },
-      {
-        "time": 1795424400000,
-        "clouds": 91.6,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": 0,
-        "precipitationProb": null,
-        "temp": 2.3,
-        "humidity": 75.3,
-        "wind": 11.879999999999999
-      },
-      {
-        "time": 1795428000000,
-        "clouds": 91.2,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": 0,
-        "precipitationProb": null,
-        "temp": 2.8,
-        "humidity": 70.2,
-        "wind": 13.68
-      },
-      {
-        "time": 1795431600000,
-        "clouds": 99.7,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": 0,
-        "precipitationProb": null,
-        "temp": 3.1,
-        "humidity": 69.7,
-        "wind": 14.04
-      },
-      {
-        "time": 1795435200000,
-        "clouds": 99.1,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": 0,
-        "precipitationProb": null,
-        "temp": 3.1,
-        "humidity": 75,
+        "humidity": 73.9,
         "wind": 14.4
       },
       {
-        "time": 1795438800000,
-        "clouds": 97.8,
+        "time": 1795420800000,
+        "clouds": 21.3,
         "low": null,
         "mid": null,
         "high": null,
@@ -592,41 +438,13 @@
         "visibility": null,
         "precipitation": 0,
         "precipitationProb": null,
-        "temp": 3.1,
-        "humidity": 74.2,
-        "wind": 15.48
-      },
-      {
-        "time": 1795442400000,
-        "clouds": 96.6,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": 0,
-        "precipitationProb": null,
-        "temp": 3.1,
-        "humidity": 72.1,
-        "wind": 15.48
-      },
-      {
-        "time": 1795446000000,
-        "clouds": 98.7,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": 0,
-        "precipitationProb": null,
-        "temp": 2.9,
-        "humidity": 73.2,
+        "temp": 1.8,
+        "humidity": 73.8,
         "wind": 14.76
       },
       {
-        "time": 1795449600000,
-        "clouds": 99.8,
+        "time": 1795424400000,
+        "clouds": 84.6,
         "low": null,
         "mid": null,
         "high": null,
@@ -634,12 +452,12 @@
         "visibility": null,
         "precipitation": 0,
         "precipitationProb": null,
-        "temp": 2.9,
-        "humidity": 73.9,
-        "wind": 15.120000000000001
+        "temp": 2.4,
+        "humidity": 73.3,
+        "wind": 16.2
       },
       {
-        "time": 1795453200000,
+        "time": 1795428000000,
         "clouds": 99.4,
         "low": null,
         "mid": null,
@@ -648,9 +466,107 @@
         "visibility": null,
         "precipitation": 0,
         "precipitationProb": null,
+        "temp": 2.8,
+        "humidity": 71.9,
+        "wind": 16.2
+      },
+      {
+        "time": 1795431600000,
+        "clouds": 99.5,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": 0,
+        "precipitationProb": null,
+        "temp": 2.8,
+        "humidity": 75.1,
+        "wind": 14.4
+      },
+      {
+        "time": 1795435200000,
+        "clouds": 92.7,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": 0,
+        "precipitationProb": null,
+        "temp": 2.9,
+        "humidity": 77.8,
+        "wind": 14.4
+      },
+      {
+        "time": 1795438800000,
+        "clouds": 93.7,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": 0,
+        "precipitationProb": null,
+        "temp": 3.1,
+        "humidity": 76.2,
+        "wind": 16.56
+      },
+      {
+        "time": 1795442400000,
+        "clouds": 88.9,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": 0,
+        "precipitationProb": null,
+        "temp": 3.1,
+        "humidity": 73.3,
+        "wind": 16.2
+      },
+      {
+        "time": 1795446000000,
+        "clouds": 89.2,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": 0,
+        "precipitationProb": null,
+        "temp": 3,
+        "humidity": 74.3,
+        "wind": 13.68
+      },
+      {
+        "time": 1795449600000,
+        "clouds": 90.1,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": 0,
+        "precipitationProb": null,
+        "temp": 2.9,
+        "humidity": 75.2,
+        "wind": 13.32
+      },
+      {
+        "time": 1795453200000,
+        "clouds": 99.3,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": 0,
+        "precipitationProb": null,
         "temp": 2.7,
-        "humidity": 79,
-        "wind": 15.48
+        "humidity": 76.1,
+        "wind": 14.04
       },
       {
         "time": 1795456800000,
@@ -663,26 +579,12 @@
         "precipitation": 0,
         "precipitationProb": null,
         "temp": 2.6,
-        "humidity": 84.6,
-        "wind": 14.76
+        "humidity": 77.3,
+        "wind": 14.4
       },
       {
         "time": 1795460400000,
-        "clouds": 99.3,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": 0,
-        "precipitationProb": null,
-        "temp": 2.6,
-        "humidity": 84.5,
-        "wind": 14.76
-      },
-      {
-        "time": 1795464000000,
-        "clouds": 93.4,
+        "clouds": 99.6,
         "low": null,
         "mid": null,
         "high": null,
@@ -691,12 +593,26 @@
         "precipitation": 0,
         "precipitationProb": null,
         "temp": 2.5,
-        "humidity": 81.4,
+        "humidity": 77.9,
         "wind": 14.76
       },
       {
+        "time": 1795464000000,
+        "clouds": 91.8,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": 0,
+        "precipitationProb": null,
+        "temp": 2.5,
+        "humidity": 78.5,
+        "wind": 14.4
+      },
+      {
         "time": 1795467600000,
-        "clouds": 80.7,
+        "clouds": 71.3,
         "low": null,
         "mid": null,
         "high": null,
@@ -705,12 +621,12 @@
         "precipitation": 0,
         "precipitationProb": null,
         "temp": 2.4,
-        "humidity": 79.3,
-        "wind": 12.6
+        "humidity": 77.6,
+        "wind": 13.68
       },
       {
         "time": 1795471200000,
-        "clouds": 80.1,
+        "clouds": 68.6,
         "low": null,
         "mid": null,
         "high": null,
@@ -718,13 +634,13 @@
         "visibility": null,
         "precipitation": 0,
         "precipitationProb": null,
-        "temp": 2.3,
-        "humidity": 76.8,
-        "wind": 11.879999999999999
+        "temp": 2.2,
+        "humidity": 74.9,
+        "wind": 12.96
       },
       {
         "time": 1795474800000,
-        "clouds": 67,
+        "clouds": 81.4,
         "low": null,
         "mid": null,
         "high": null,
@@ -733,12 +649,12 @@
         "precipitation": 0,
         "precipitationProb": null,
         "temp": 2,
-        "humidity": 77.5,
-        "wind": 10.8
+        "humidity": 75.3,
+        "wind": 11.520000000000001
       },
       {
         "time": 1795478400000,
-        "clouds": 38.1,
+        "clouds": 58.9,
         "low": null,
         "mid": null,
         "high": null,
@@ -747,26 +663,12 @@
         "precipitation": 0,
         "precipitationProb": null,
         "temp": 1.5,
-        "humidity": 79.2,
+        "humidity": 77,
         "wind": 10.44
       },
       {
         "time": 1795482000000,
-        "clouds": 23.9,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": 0,
-        "precipitationProb": null,
-        "temp": 1.5,
-        "humidity": 78.3,
-        "wind": 11.520000000000001
-      },
-      {
-        "time": 1795485600000,
-        "clouds": 29.3,
+        "clouds": 38.8,
         "low": null,
         "mid": null,
         "high": null,
@@ -775,12 +677,12 @@
         "precipitation": 0,
         "precipitationProb": null,
         "temp": 1.3,
-        "humidity": 77,
-        "wind": 11.879999999999999
+        "humidity": 78.4,
+        "wind": 10.08
       },
       {
-        "time": 1795489200000,
-        "clouds": 53.9,
+        "time": 1795485600000,
+        "clouds": 59.7,
         "low": null,
         "mid": null,
         "high": null,
@@ -788,13 +690,13 @@
         "visibility": null,
         "precipitation": 0,
         "precipitationProb": null,
-        "temp": 1.2,
-        "humidity": 78.1,
-        "wind": 11.520000000000001
+        "temp": 1.1,
+        "humidity": 78.9,
+        "wind": 10.08
       },
       {
-        "time": 1795492800000,
-        "clouds": 29.4,
+        "time": 1795489200000,
+        "clouds": 74.3,
         "low": null,
         "mid": null,
         "high": null,
@@ -803,54 +705,12 @@
         "precipitation": 0,
         "precipitationProb": null,
         "temp": 1,
-        "humidity": 80.8,
-        "wind": 9.72
+        "humidity": 78.9,
+        "wind": 10.8
       },
       {
-        "time": 1795496400000,
-        "clouds": 2.1,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": 0,
-        "precipitationProb": null,
-        "temp": 0.9,
-        "humidity": 80.5,
-        "wind": 9.72
-      },
-      {
-        "time": 1795500000000,
-        "clouds": 9.2,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": 0,
-        "precipitationProb": null,
-        "temp": 0.8,
-        "humidity": 80.1,
-        "wind": 9.360000000000001
-      },
-      {
-        "time": 1795503600000,
-        "clouds": 4.1,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": 0,
-        "precipitationProb": null,
-        "temp": 0.5,
-        "humidity": 80.3,
-        "wind": 9.72
-      },
-      {
-        "time": 1795507200000,
-        "clouds": 0.9,
+        "time": 1795492800000,
+        "clouds": 33.3,
         "low": null,
         "mid": null,
         "high": null,
@@ -859,12 +719,12 @@
         "precipitation": 0,
         "precipitationProb": null,
         "temp": 0.7,
-        "humidity": 80.1,
-        "wind": 9.360000000000001
+        "humidity": 79.8,
+        "wind": 10.08
       },
       {
-        "time": 1795510800000,
-        "clouds": 0.7,
+        "time": 1795496400000,
+        "clouds": 2.5,
         "low": null,
         "mid": null,
         "high": null,
@@ -872,40 +732,12 @@
         "visibility": null,
         "precipitation": 0,
         "precipitationProb": null,
-        "temp": 1.5,
-        "humidity": 78.7,
-        "wind": 8.64
+        "temp": 0.7,
+        "humidity": 79.2,
+        "wind": 9
       },
       {
-        "time": 1795514400000,
-        "clouds": 0.5,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": 0,
-        "precipitationProb": null,
-        "temp": 2.1,
-        "humidity": 74.2,
-        "wind": 11.16
-      },
-      {
-        "time": 1795518000000,
-        "clouds": 3.2,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": 0,
-        "precipitationProb": null,
-        "temp": 2.6,
-        "humidity": 72.7,
-        "wind": 12.24
-      },
-      {
-        "time": 1795521600000,
+        "time": 1795500000000,
         "clouds": 5,
         "low": null,
         "mid": null,
@@ -914,13 +746,97 @@
         "visibility": null,
         "precipitation": 0,
         "precipitationProb": null,
-        "temp": 2.8,
+        "temp": 0.6,
+        "humidity": 79.2,
+        "wind": 8.64
+      },
+      {
+        "time": 1795503600000,
+        "clouds": 0.1,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": 0,
+        "precipitationProb": null,
+        "temp": 0.3,
+        "humidity": 79.5,
+        "wind": 8.64
+      },
+      {
+        "time": 1795507200000,
+        "clouds": 0,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": 0,
+        "precipitationProb": null,
+        "temp": 0.5,
+        "humidity": 79.6,
+        "wind": 8.28
+      },
+      {
+        "time": 1795510800000,
+        "clouds": 0,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": 0,
+        "precipitationProb": null,
+        "temp": 1.2,
+        "humidity": 77.6,
+        "wind": 8.64
+      },
+      {
+        "time": 1795514400000,
+        "clouds": 0.1,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": 0,
+        "precipitationProb": null,
+        "temp": 1.9,
+        "humidity": 75,
+        "wind": 10.44
+      },
+      {
+        "time": 1795518000000,
+        "clouds": 2.3,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": 0,
+        "precipitationProb": null,
+        "temp": 2.4,
         "humidity": 73.5,
-        "wind": 10.8
+        "wind": 12.6
+      },
+      {
+        "time": 1795521600000,
+        "clouds": 1.1,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": 0,
+        "precipitationProb": null,
+        "temp": 2.8,
+        "humidity": 72.1,
+        "wind": 11.879999999999999
       },
       {
         "time": 1795525200000,
-        "clouds": 0.4,
+        "clouds": 0,
         "low": null,
         "mid": null,
         "high": null,
@@ -929,12 +845,12 @@
         "precipitation": 0,
         "precipitationProb": null,
         "temp": 2.9,
-        "humidity": 70.1,
+        "humidity": 70.5,
         "wind": 10.08
       },
       {
         "time": 1795528800000,
-        "clouds": 1,
+        "clouds": 0.3,
         "low": null,
         "mid": null,
         "high": null,
@@ -942,26 +858,12 @@
         "visibility": null,
         "precipitation": 0,
         "precipitationProb": null,
-        "temp": 2.7,
-        "humidity": 71.1,
-        "wind": 11.16
+        "temp": 2.8,
+        "humidity": 71,
+        "wind": 11.520000000000001
       },
       {
         "time": 1795532400000,
-        "clouds": 1.5,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": 0,
-        "precipitationProb": null,
-        "temp": 2,
-        "humidity": 77.1,
-        "wind": 9.72
-      },
-      {
-        "time": 1795536000000,
         "clouds": 1.3,
         "low": null,
         "mid": null,
@@ -970,13 +872,13 @@
         "visibility": null,
         "precipitation": 0,
         "precipitationProb": null,
-        "temp": 1.7,
-        "humidity": 79.3,
-        "wind": 8.28
+        "temp": 2.2,
+        "humidity": 75.2,
+        "wind": 10.44
       },
       {
-        "time": 1795539600000,
-        "clouds": 0.6,
+        "time": 1795536000000,
+        "clouds": 0.2,
         "low": null,
         "mid": null,
         "high": null,
@@ -984,69 +886,111 @@
         "visibility": null,
         "precipitation": 0,
         "precipitationProb": null,
-        "temp": 2,
-        "humidity": 72.7,
-        "wind": 15.840000000000002
+        "temp": 1.7,
+        "humidity": 79.9,
+        "wind": 9
       },
       {
-        "time": 1795543200000,
+        "time": 1795539600000,
         "clouds": 0.2,
         "low": null,
         "mid": null,
         "high": null,
         "fog": null,
         "visibility": null,
-        "precipitation": null,
+        "precipitation": 0,
         "precipitationProb": null,
-        "temp": 1.9,
-        "humidity": 74.4,
-        "wind": 14.76
+        "temp": 1.7,
+        "humidity": 74.2,
+        "wind": 11.16
+      },
+      {
+        "time": 1795543200000,
+        "clouds": 0,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": 0,
+        "precipitationProb": null,
+        "temp": 1.5,
+        "humidity": 75.4,
+        "wind": 12.24
+      },
+      {
+        "time": 1795546800000,
+        "clouds": 2.1,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": 0,
+        "precipitationProb": null,
+        "temp": 1.7,
+        "humidity": 76.7,
+        "wind": 14.04
+      },
+      {
+        "time": 1795550400000,
+        "clouds": 18.5,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": 0,
+        "precipitationProb": null,
+        "temp": 1.7,
+        "humidity": 77.7,
+        "wind": 14.04
+      },
+      {
+        "time": 1795554000000,
+        "clouds": 24.3,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": 0,
+        "precipitationProb": null,
+        "temp": 1.5,
+        "humidity": 79.6,
+        "wind": 10.44
+      },
+      {
+        "time": 1795557600000,
+        "clouds": 17.7,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": 0,
+        "precipitationProb": null,
+        "temp": 1.3,
+        "humidity": 82.3,
+        "wind": 9
+      },
+      {
+        "time": 1795561200000,
+        "clouds": 12.4,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": 0,
+        "precipitationProb": null,
+        "temp": 1.4,
+        "humidity": 79.8,
+        "wind": 15.120000000000001
       },
       {
         "time": 1795564800000,
-        "clouds": 35.9,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": null,
-        "precipitationProb": null,
-        "temp": 0.6,
-        "humidity": 82.5,
-        "wind": 9.72
-      },
-      {
-        "time": 1795586400000,
-        "clouds": 40.6,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": null,
-        "precipitationProb": null,
-        "temp": -0.2,
-        "humidity": 85.9,
-        "wind": 10.08
-      },
-      {
-        "time": 1795608000000,
-        "clouds": 35.5,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": null,
-        "precipitationProb": null,
-        "temp": 1.3,
-        "humidity": 79.6,
-        "wind": 9.72
-      },
-      {
-        "time": 1795629600000,
-        "clouds": 10.9,
+        "clouds": 20,
         "low": null,
         "mid": null,
         "high": null,
@@ -1055,12 +999,54 @@
         "precipitation": null,
         "precipitationProb": null,
         "temp": 1.2,
-        "humidity": 84,
-        "wind": 12.96
+        "humidity": 76.7,
+        "wind": 16.56
+      },
+      {
+        "time": 1795586400000,
+        "clouds": 79.3,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": null,
+        "precipitationProb": null,
+        "temp": 0.1,
+        "humidity": 85.3,
+        "wind": 9.360000000000001
+      },
+      {
+        "time": 1795608000000,
+        "clouds": 57.8,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": null,
+        "precipitationProb": null,
+        "temp": 1.6,
+        "humidity": 81.2,
+        "wind": 10.44
+      },
+      {
+        "time": 1795629600000,
+        "clouds": 18.4,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": null,
+        "precipitationProb": null,
+        "temp": 1.5,
+        "humidity": 84.1,
+        "wind": 13.32
       },
       {
         "time": 1795651200000,
-        "clouds": 11.7,
+        "clouds": 14.1,
         "low": null,
         "mid": null,
         "high": null,
@@ -1069,12 +1055,12 @@
         "precipitation": null,
         "precipitationProb": null,
         "temp": 1,
-        "humidity": 87.6,
-        "wind": 11.879999999999999
+        "humidity": 87.7,
+        "wind": 12.6
       },
       {
         "time": 1795672800000,
-        "clouds": 19.5,
+        "clouds": 21.1,
         "low": null,
         "mid": null,
         "high": null,
@@ -1082,13 +1068,13 @@
         "visibility": null,
         "precipitation": null,
         "precipitationProb": null,
-        "temp": 0.9,
-        "humidity": 88,
-        "wind": 11.520000000000001
+        "temp": 1,
+        "humidity": 88.9,
+        "wind": 12.24
       },
       {
         "time": 1795694400000,
-        "clouds": 41.4,
+        "clouds": 30.5,
         "low": null,
         "mid": null,
         "high": null,
@@ -1096,13 +1082,13 @@
         "visibility": null,
         "precipitation": null,
         "precipitationProb": null,
-        "temp": 2.2,
-        "humidity": 78.2,
+        "temp": 2.3,
+        "humidity": 80.1,
         "wind": 11.520000000000001
       },
       {
         "time": 1795716000000,
-        "clouds": 49.6,
+        "clouds": 45.3,
         "low": null,
         "mid": null,
         "high": null,
@@ -1110,13 +1096,13 @@
         "visibility": null,
         "precipitation": null,
         "precipitationProb": null,
-        "temp": 2.2,
-        "humidity": 80.4,
+        "temp": 2,
+        "humidity": 81.6,
         "wind": 12.96
       },
       {
         "time": 1795737600000,
-        "clouds": 68.7,
+        "clouds": 42.2,
         "low": null,
         "mid": null,
         "high": null,
@@ -1124,13 +1110,13 @@
         "visibility": null,
         "precipitation": null,
         "precipitationProb": null,
-        "temp": 2.1,
-        "humidity": 85.2,
-        "wind": 12.6
+        "temp": 2,
+        "humidity": 84,
+        "wind": 12.24
       },
       {
         "time": 1795759200000,
-        "clouds": 91.8,
+        "clouds": 88.7,
         "low": null,
         "mid": null,
         "high": null,
@@ -1138,13 +1124,13 @@
         "visibility": null,
         "precipitation": null,
         "precipitationProb": null,
-        "temp": 2.6,
-        "humidity": 84.8,
-        "wind": 12.24
+        "temp": 2.7,
+        "humidity": 82.3,
+        "wind": 11.879999999999999
       },
       {
         "time": 1795780800000,
-        "clouds": 87.5,
+        "clouds": 69.5,
         "low": null,
         "mid": null,
         "high": null,
@@ -1152,13 +1138,13 @@
         "visibility": null,
         "precipitation": null,
         "precipitationProb": null,
-        "temp": 3.8,
-        "humidity": 78.8,
-        "wind": 12.24
+        "temp": 4,
+        "humidity": 76.8,
+        "wind": 11.520000000000001
       },
       {
         "time": 1795802400000,
-        "clouds": 61.3,
+        "clouds": 57.8,
         "low": null,
         "mid": null,
         "high": null,
@@ -1166,40 +1152,12 @@
         "visibility": null,
         "precipitation": null,
         "precipitationProb": null,
-        "temp": 3.2,
-        "humidity": 78.7,
-        "wind": 12.96
+        "temp": 3.4,
+        "humidity": 77.6,
+        "wind": 12.24
       },
       {
         "time": 1795824000000,
-        "clouds": 80.5,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": null,
-        "precipitationProb": null,
-        "temp": 3.1,
-        "humidity": 80,
-        "wind": 12.6
-      },
-      {
-        "time": 1795845600000,
-        "clouds": 98.4,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": null,
-        "precipitationProb": null,
-        "temp": 2.9,
-        "humidity": 82.3,
-        "wind": 12.6
-      },
-      {
-        "time": 1795867200000,
         "clouds": 99.2,
         "low": null,
         "mid": null,
@@ -1208,9 +1166,37 @@
         "visibility": null,
         "precipitation": null,
         "precipitationProb": null,
-        "temp": 3,
-        "humidity": 78.8,
-        "wind": 12.96
+        "temp": 3.1,
+        "humidity": 77.1,
+        "wind": 12.6
+      },
+      {
+        "time": 1795845600000,
+        "clouds": 96.9,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": null,
+        "precipitationProb": null,
+        "temp": 2.8,
+        "humidity": 79.3,
+        "wind": 12.24
+      },
+      {
+        "time": 1795867200000,
+        "clouds": 45.7,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": null,
+        "precipitationProb": null,
+        "temp": 2.9,
+        "humidity": 72.4,
+        "wind": 13.32
       },
       {
         "time": 1795888800000,
@@ -1222,9 +1208,9 @@
         "visibility": null,
         "precipitation": null,
         "precipitationProb": null,
-        "temp": 2.6,
-        "humidity": 80.6,
-        "wind": 12.96
+        "temp": 2.7,
+        "humidity": 80,
+        "wind": 13.68
       },
       {
         "time": 1795910400000,
@@ -1236,13 +1222,13 @@
         "visibility": null,
         "precipitation": null,
         "precipitationProb": null,
-        "temp": 2.5,
-        "humidity": 80.5,
-        "wind": 13.32
+        "temp": 2.7,
+        "humidity": 81.2,
+        "wind": 14.04
       },
       {
         "time": 1795932000000,
-        "clouds": 79.7,
+        "clouds": 100,
         "low": null,
         "mid": null,
         "high": null,
@@ -1250,13 +1236,55 @@
         "visibility": null,
         "precipitation": null,
         "precipitationProb": null,
-        "temp": 2.7,
-        "humidity": 82.2,
-        "wind": 13.32
+        "temp": 2.9,
+        "humidity": 82.1,
+        "wind": 14.76
       },
       {
         "time": 1795953600000,
-        "clouds": 99.2,
+        "clouds": 100,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": null,
+        "precipitationProb": null,
+        "temp": 2.9,
+        "humidity": 80.2,
+        "wind": 15.120000000000001
+      },
+      {
+        "time": 1795975200000,
+        "clouds": 26.6,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": null,
+        "precipitationProb": null,
+        "temp": 3.2,
+        "humidity": 80.9,
+        "wind": 14.76
+      },
+      {
+        "time": 1795996800000,
+        "clouds": 100,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": null,
+        "precipitationProb": null,
+        "temp": 2.3,
+        "humidity": 82.3,
+        "wind": 15.120000000000001
+      },
+      {
+        "time": 1796018400000,
+        "clouds": 100,
         "low": null,
         "mid": null,
         "high": null,
@@ -1265,50 +1293,8 @@
         "precipitation": null,
         "precipitationProb": null,
         "temp": 2.8,
-        "humidity": 78.1,
-        "wind": 13.68
-      },
-      {
-        "time": 1795975200000,
-        "clouds": 98.8,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": null,
-        "precipitationProb": null,
-        "temp": 2.6,
-        "humidity": 80.1,
-        "wind": 14.4
-      },
-      {
-        "time": 1795996800000,
-        "clouds": 62.5,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": null,
-        "precipitationProb": null,
-        "temp": 2.4,
-        "humidity": 81.3,
-        "wind": 14.4
-      },
-      {
-        "time": 1796018400000,
-        "clouds": 70.3,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": null,
-        "precipitationProb": null,
-        "temp": 2.2,
-        "humidity": 79.8,
-        "wind": 14.04
+        "humidity": 86.3,
+        "wind": 14.76
       },
       {
         "time": 1796040000000,
@@ -1320,9 +1306,9 @@
         "visibility": null,
         "precipitation": null,
         "precipitationProb": null,
-        "temp": 2.3,
-        "humidity": 81.6,
-        "wind": 13.32
+        "temp": 3,
+        "humidity": 83.6,
+        "wind": 13.68
       },
       {
         "time": 1796061600000,
@@ -1334,40 +1320,12 @@
         "visibility": null,
         "precipitation": null,
         "precipitationProb": null,
-        "temp": 2,
-        "humidity": 84.9,
+        "temp": 3.3,
+        "humidity": 85.5,
         "wind": 14.04
       },
       {
         "time": 1796083200000,
-        "clouds": 62.5,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": null,
-        "precipitationProb": null,
-        "temp": 2.1,
-        "humidity": 82.1,
-        "wind": 14.04
-      },
-      {
-        "time": 1796104800000,
-        "clouds": 57,
-        "low": null,
-        "mid": null,
-        "high": null,
-        "fog": null,
-        "visibility": null,
-        "precipitation": null,
-        "precipitationProb": null,
-        "temp": 2.2,
-        "humidity": 83.1,
-        "wind": 13.68
-      },
-      {
-        "time": 1796126400000,
         "clouds": 100,
         "low": null,
         "mid": null,
@@ -1376,9 +1334,37 @@
         "visibility": null,
         "precipitation": null,
         "precipitationProb": null,
-        "temp": 2.2,
-        "humidity": 84,
-        "wind": 13.68
+        "temp": 3.3,
+        "humidity": 88.3,
+        "wind": 13.32
+      },
+      {
+        "time": 1796104800000,
+        "clouds": 35.5,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": null,
+        "precipitationProb": null,
+        "temp": 3.3,
+        "humidity": 87,
+        "wind": 12.6
+      },
+      {
+        "time": 1796126400000,
+        "clouds": 34,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": null,
+        "precipitationProb": null,
+        "temp": 2.4,
+        "humidity": 80.3,
+        "wind": 11.879999999999999
       },
       {
         "time": 1796148000000,
@@ -1391,12 +1377,12 @@
         "precipitation": null,
         "precipitationProb": null,
         "temp": 2.2,
-        "humidity": 85.3,
-        "wind": 14.4
+        "humidity": 89,
+        "wind": 12.24
       },
       {
         "time": 1796169600000,
-        "clouds": 35.9,
+        "clouds": 100,
         "low": null,
         "mid": null,
         "high": null,
@@ -1404,9 +1390,9 @@
         "visibility": null,
         "precipitation": null,
         "precipitationProb": null,
-        "temp": 2.3,
-        "humidity": 82.5,
-        "wind": 14.04
+        "temp": 3,
+        "humidity": 91.1,
+        "wind": 11.879999999999999
       },
       {
         "time": 1796191200000,
@@ -1418,13 +1404,13 @@
         "visibility": null,
         "precipitation": null,
         "precipitationProb": null,
-        "temp": 1.2,
-        "humidity": 86.4,
-        "wind": 13.68
+        "temp": 3.3,
+        "humidity": 91.5,
+        "wind": 12.24
       },
       {
         "time": 1796212800000,
-        "clouds": 50.8,
+        "clouds": 100,
         "low": null,
         "mid": null,
         "high": null,
@@ -1432,12 +1418,27 @@
         "visibility": null,
         "precipitation": null,
         "precipitationProb": null,
-        "temp": 2.3,
-        "humidity": 77.4,
-        "wind": 13.68
+        "temp": 3.5,
+        "humidity": 88.3,
+        "wind": 11.520000000000001
+      },
+      {
+        "time": 1796234400000,
+        "clouds": 100,
+        "low": null,
+        "mid": null,
+        "high": null,
+        "fog": null,
+        "visibility": null,
+        "precipitation": null,
+        "precipitationProb": null,
+        "temp": 3.9,
+        "humidity": 89.3,
+        "wind": 12.24
       }
     ],
-    "lastModified": "Sun, 22 Nov 2026 14:55:47 GMT",
-    "nextRequestAt": 1795361211000
-  }
+    "lastModified": "Sun, 22 Nov 2026 20:41:55 GMT",
+    "nextRequestAt": 1795383114114
+  },
+  "openMeteoBlockedUntil": 1795392037704
 }
